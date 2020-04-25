@@ -16,6 +16,8 @@ namespace Notepad
         private string _fileName;
         private string _filePath;
         private string _content;
+        private string _contentEncodingName;
+        private Encoding _contentEncoding;
 
         public string FileName
         {
@@ -53,6 +55,50 @@ namespace Notepad
             {
                 _content = value;
                 NotifyPropertyChanged("Content");
+                NotifyPropertyChanged("ContentLength");
+                NotifyPropertyChanged("ContentLengthWithoutSpaces");
+            }
+        }
+
+        public string ContentEncodingName
+        {
+            get
+            {
+                return _contentEncodingName;
+            }
+            set
+            {
+                _contentEncodingName = value;
+                NotifyPropertyChanged("ContentEncodingName");
+            }
+        }
+
+        public int ContentLength
+        {
+            get
+            {
+                return _content.Length;
+            }
+        }
+
+        public int ContentLengthWithoutSpaces
+        {
+            get
+            {
+                return (((_content.Replace('\n', ' ')).Replace('\r', ' ')).Replace(" ", "")).Length;
+            }
+        }
+
+        public Encoding ContentEncoding
+        {
+            get
+            {
+                return _contentEncoding;
+            }
+            set
+            {
+                _contentEncoding = value;
+                NotifyPropertyChanged("ContentEncoding");
             }
         }
 
@@ -76,6 +122,8 @@ namespace Notepad
         {
             FileName = "Безымянный";
             Content = String.Empty;
+            ContentEncoding = Encoding.UTF8;
+            ContentEncodingName = Encoding.UTF8.HeaderName.ToUpper();
         }
 
         public void LoadFile(string fileName)
@@ -89,6 +137,8 @@ namespace Notepad
                 FileName = Path.GetFileName(fileName);
                 FilePath = fileName; 
                 Content = sr.ReadToEnd();
+                ContentEncoding = sr.CurrentEncoding;
+                ContentEncodingName = sr.CurrentEncoding.HeaderName.ToUpper();
             }
             catch(Exception e)
             {
@@ -108,7 +158,7 @@ namespace Notepad
             try
             {
                 fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
-                sw = new StreamWriter(fs, Encoding.Unicode);
+                sw = new StreamWriter(fs, ContentEncoding);
                 sw.Write(Content);
                 FilePath = fileName;
                 FileName = Path.GetFileName(fileName);
@@ -122,6 +172,16 @@ namespace Notepad
                 sw?.Close();
                 fs?.Close();
             }
+        }
+
+        public int GetContentLength()
+        {
+            return Content.Length;
+        }
+
+        public int GetContentLengthWithoutSpaces()
+        {
+            return (Content.Replace(" ", "")).Length;
         }
     }
 }

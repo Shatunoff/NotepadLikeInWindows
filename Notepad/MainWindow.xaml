@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
-        Title="Блокнот как в Windows" Height="450" Width="800">
+        Title="{Binding WindowTitle}" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -59,14 +59,14 @@
             </MenuItem>
         </Menu>
         <TextBox Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
-        <StatusBar Name="statusStrip" Grid.Row="2" VerticalAlignment="Bottom">
-            <StatusBarItem Name="sbi" Content="Hello! My name is sbi." HorizontalAlignment="Stretch"/>
-            <StatusBarItem Content="Символов всего:" HorizontalAlignment="Left" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
-            <StatusBarItem Name="sbiTextLenGet" Content="{Binding ContentLength, Mode=Default, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
-            <StatusBarItem Content="Без пробелов:" HorizontalAlignment="Left"/>
-            <StatusBarItem Name="sbiTextLenWithoutSpacesGet" Content="{Binding ContentLengthWithoutSpaces, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
-            <StatusBarItem Content="Кодировка:" HorizontalAlignment="Left" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
-            <StatusBarItem Name="sbiEncodingName" Content="{Binding ContentEncodingName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+        <StatusBar Name="statusStrip" Grid.Row="2">
+            <StatusBarItem Name="sbi" Content="Hello! My name is sbi."/>
+            <StatusBarItem Content="Символов всего:" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
+            <StatusBarItem Name="sbiTextLenGet" Content="{Binding ContentLength, Mode=Default, UpdateSourceTrigger=PropertyChanged}"/>
+            <StatusBarItem Content="Без пробелов:"/>
+            <StatusBarItem Name="sbiTextLenWithoutSpacesGet" Content="{Binding ContentLengthWithoutSpaces, UpdateSourceTrigger=PropertyChanged}"/>
+            <StatusBarItem Content="Кодировка:" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
+            <StatusBarItem Name="sbiEncodingName" Content="{Binding ContentEncodingName, UpdateSourceTrigger=PropertyChanged}"/>
         </StatusBar>
     </Grid>
 </Window>

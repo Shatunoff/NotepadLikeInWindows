@@ -26,6 +26,7 @@ namespace Notepad
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = textEditor;
             tbNotepad.DataContext = textEditor;
             statusStrip.DataContext = textEditor;
         }

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Notepad
 {
@@ -31,6 +33,14 @@ namespace Notepad
             }
         }
 
+        public string WindowTitle
+        {
+            get
+            {
+                return _fileName + " - " + Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
+            }
+        }
+
         public string FilePath 
         { 
             get
@@ -41,6 +51,7 @@ namespace Notepad
             {
                 _filePath = value;
                 NotifyPropertyChanged("FilePath");
+                NotifyPropertyChanged("WindowTitle");
             }
         }
 
@@ -174,16 +185,6 @@ namespace Notepad
                 sw?.Close();
                 fs?.Close();
             }
-        }
-
-        public int GetContentLength()
-        {
-            return Content.Length;
-        }
-
-        public int GetContentLengthWithoutSpaces()
-        {
-            return (Content.Replace(" ", "")).Length;
         }
     }
 }

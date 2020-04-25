@@ -44,7 +44,9 @@
                 <MenuItem Header="Время и дата" Name="mmEditTimeAndData" VerticalAlignment="Center" Click="mmEditTimeAndData_Click"/>
             </MenuItem>
             <MenuItem Header="Формат" Name="mmFormat">
-                <MenuItem Header="Перенос по словам" Name="mmFormatWrap" VerticalAlignment="Center" IsCheckable="True"/>
+                <MenuItem Header="Перенос по словам" Name="mmFormatWrap" VerticalAlignment="Center" IsCheckable="True" Checked="mmFormatWrap_Checked" Unchecked="mmFormatWrap_Unchecked"/>
+                <MenuItem Header="Проверка орфографии" Name="mmFormatSpellCheck" VerticalAlignment="Center" IsCheckable="True" Checked="mmViewSpellCheck_Checked" Unchecked="mmViewSpellCheck_Unchecked">
+                </MenuItem>
                 <MenuItem Header="Шрифт..." Name="mmFormatFont" VerticalAlignment="Center"/>
             </MenuItem>
             <MenuItem Header="Вид" Name="mmView">
@@ -53,8 +55,7 @@
                     <MenuItem Header="Уменьшить" Name="mmViewScaleMinus" VerticalAlignment="Center"/>
                     <MenuItem Header="Восстановить масштаб по умолчанию" Name="mmViewScaleDefault" VerticalAlignment="Center"/>
                 </MenuItem>
-                <MenuItem Header="Проверка орфографии" Name="mmViewSpellCheck" VerticalAlignment="Center" IsCheckable="True"/>
-                <MenuItem Header="Строка состояния" Name="mmViewStatusStrip" VerticalAlignment="Center" IsCheckable="True"/>
+                <MenuItem Header="Строка состояния" Name="mmViewStatusStrip" VerticalAlignment="Center" IsCheckable="True" Checked="mmViewStatusStrip_Checked" Unchecked="mmViewStatusStrip_Unchecked"/>
             </MenuItem>
             <MenuItem Header="Справка" Name="mmHelp">
                 <MenuItem Header="О программе" Name="mmHelpAboutProgram" VerticalAlignment="Center"/>
@@ -63,7 +64,7 @@
         <TextBox Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
         <StatusBar Name="statusStrip" Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="#FFD6D3D3">
             <StatusBarItem Name="sbi" Content="Hello! My name is sbi."/>
-            <StatusBarItem Content="Строк:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
+            <StatusBarItem Name="sbiTextLinesCountLabel" Content="Строк:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
             <StatusBarItem Name="sbiTextLinesCount" Content="{Binding ContentLinesCount, UpdateSourceTrigger=PropertyChanged}"/>
             <StatusBarItem Content="Символов всего:"/>
             <StatusBarItem Name="sbiTextLenGet" Content="{Binding ContentLength, UpdateSourceTrigger=PropertyChanged}"/>

@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -18,16 +19,10 @@ namespace Notepad
 {
     //TODO:Открытие нового экземпляра приложения
     //TODO:Печать и параметры печати
-    //TODO:Отменить действие
-    //TODO:Вырезать-Копировать-Вставить-Удалить
     //TODO:Поиск по документу (Найти, Найти далее, Найти ранее)
     //TODO:Замена внутри документа
     //TODO:Переход к указанной строке (при отсутствии переноса по словам)
-    //TODO:Выделение всего текста
-    //TODO:Добавление времени и даты в документ
-    //TODO:Перенос текста по словам
     //TODO:Настройка шрифта
-    //TODO:Минимальный размер главного окна
     //TODO:Масштаб текста (если возможно)
     //TODO:Окно "О программе"
     //TODO:Запоминание пользовательских установок (размер окна, шрифт, отображение строки состояния, перенос по словам) (отдельным статическим классом, который берет информацию из Property.Settings)
@@ -46,6 +41,8 @@ namespace Notepad
             this.DataContext = textEditor;
             tbNotepad.DataContext = textEditor;
             statusStrip.DataContext = textEditor;
+            tbNotepad.Language = XmlLanguage.GetLanguage("ru-RU");
+            mmViewStatusStrip.IsChecked = statusStrip.Visibility == Visibility.Visible ? true : false;
         }
 
         private void mmFileCreate_Click(object sender, RoutedEventArgs e)
@@ -127,6 +124,40 @@ namespace Notepad
         {
             tbNotepad.SelectedText = DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString();
             tbNotepad.SelectionLength = 0;
+        }
+
+        private void mmViewSpellCheck_Checked(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.SpellCheck.IsEnabled = true;
+        }
+
+        private void mmViewSpellCheck_Unchecked(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.SpellCheck.IsEnabled = false;
+        }
+
+        private void mmFormatWrap_Checked(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.TextWrapping = TextWrapping.Wrap;
+            sbiTextLinesCountLabel.Visibility = Visibility.Collapsed;
+            sbiTextLinesCount.Visibility = Visibility.Collapsed;
+        }
+
+        private void mmFormatWrap_Unchecked(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.TextWrapping = TextWrapping.NoWrap;
+            sbiTextLinesCountLabel.Visibility = Visibility.Visible;
+            sbiTextLinesCount.Visibility = Visibility.Visible;
+        }
+
+        private void mmViewStatusStrip_Checked(object sender, RoutedEventArgs e)
+        {
+            statusStrip.Visibility = Visibility.Visible;
+        }
+
+        private void mmViewStatusStrip_Unchecked(object sender, RoutedEventArgs e)
+        {
+            statusStrip.Visibility = Visibility.Collapsed;
         }
     }
 }

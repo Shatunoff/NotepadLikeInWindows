@@ -16,9 +16,9 @@
             <MenuItem Header="Файл" Name="mmFile">
                 <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center"/>
                 <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center"/>
-                <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center"/>
+                <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center" Click="mmFileOpen_Click"/>
                 <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center"/>
-                <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center"/>
+                <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center" Click="mmFileSaveAs_Click"/>
                 <Separator/>
                 <MenuItem Header="Параметры страницы..." Name="mmFilePropertyPage" VerticalAlignment="Center"/>
                 <MenuItem Header="Печать..." Name="mmFilePrint" VerticalAlignment="Center"/>
@@ -42,6 +42,25 @@
                 <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center"/>
                 <MenuItem Header="Время и дата" Name="mmEditTimeAndData" VerticalAlignment="Center"/>
             </MenuItem>
+            <MenuItem Header="Формат" Name="mmFormat">
+                <MenuItem Header="Перенос по словам" Name="mmFormatWrap" VerticalAlignment="Center"/>
+                <MenuItem Header="Шрифт..." Name="mmFormatFont" VerticalAlignment="Center"/>
+            </MenuItem>
+            <MenuItem Header="Вид" Name="mmView">
+                <MenuItem Header="Масштаб" Name="mmViewScale">
+                    <MenuItem Header="Увеличить" Name="mmViewScalePlus" VerticalAlignment="Center"/>
+                    <MenuItem Header="Уменьшить" Name="mmViewScaleMinus" VerticalAlignment="Center"/>
+                    <MenuItem Header="Восстановить масштаб по умолчанию" Name="mmViewScaleDefault" VerticalAlignment="Center"/>
+                </MenuItem>
+                <MenuItem Header="Строка состояния" Name="mmViewStatusStrip" VerticalAlignment="Center" IsCheckable="True"/>
+            </MenuItem>
+            <MenuItem Header="Справка" Name="mmHelp">
+                <MenuItem Header="О программе" Name="mmHelpAboutProgram" VerticalAlignment="Center"/>
+            </MenuItem>
         </Menu>
+        <TextBox x:Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionBrush="#FFF1EDED" AcceptsReturn="True" BorderBrush="#FFF1EDED" Text="{Binding Content}"/>
+        <StatusBar Name="statusStrip" Grid.Row="2" VerticalAlignment="Bottom">
+            <StatusBarItem Content="Hello StatusBar"/>
+        </StatusBar>
     </Grid>
 </Window>

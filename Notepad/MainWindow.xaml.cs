@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,26 @@ namespace Notepad
     /// </summary>
     public partial class MainWindow : Window
     {
+        TextEditor textEditor = new TextEditor();
+
         public MainWindow()
         {
             InitializeComponent();
+            tbNotepad.DataContext = textEditor;
+        }
+
+        private void mmFileOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Title = "Открыть текстовый файл";
+            open.Filter = "Текстовые файлы (*.txt) |*.txt| Все файлы (*.*)|*.*";
+            if (open.ShowDialog() == DialogResult.Value)
+                textEditor.LoadFile(open.FileName);
+        }
+
+        private void mmFileSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

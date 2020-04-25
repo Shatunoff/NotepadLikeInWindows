@@ -1,0 +1,47 @@
+﻿<Window x:Class="Notepad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad"
+        mc:Ignorable="d"
+        Title="Блокнот как в Windows" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Menu x:Name="mainMenu" VerticalAlignment="Bottom" Grid.Row="0" BorderBrush="#FFF0F0F0" Background="White">
+            <MenuItem Header="Файл" Name="mmFile">
+                <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center"/>
+                <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center"/>
+                <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center"/>
+                <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center"/>
+                <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center"/>
+                <Separator/>
+                <MenuItem Header="Параметры страницы..." Name="mmFilePropertyPage" VerticalAlignment="Center"/>
+                <MenuItem Header="Печать..." Name="mmFilePrint" VerticalAlignment="Center"/>
+                <Separator/>
+                <MenuItem Header="Выход" Name="mmFileExit" VerticalAlignment="Center"/>
+            </MenuItem>
+            <MenuItem Header="Правка" Name="mmEdit">
+                <MenuItem Header="Отменить" Name="mmEditUndo" VerticalAlignment="Center"/>
+                <Separator/>
+                <MenuItem Header="Вырезать" Name="mmEditCut" VerticalAlignment="Center"/>
+                <MenuItem Header="Копировать" Name="mmEditCopy" VerticalAlignment="Center"/>
+                <MenuItem Header="Вставить" Name="mmEditPaste" VerticalAlignment="Center"/>
+                <MenuItem Header="Удалить" Name="mmEditRemove" VerticalAlignment="Center"/>
+                <Separator/>
+                <MenuItem Header="Найти..." Name="mmEditFind" VerticalAlignment="Center"/>
+                <MenuItem Header="Найти далее" Name="mmEditFindNext" VerticalAlignment="Center"/>
+                <MenuItem Header="Найти ранее" Name="mmEditFindBack" VerticalAlignment="Center"/>
+                <MenuItem Header="Заменить..." Name="mmEditReplace" VerticalAlignment="Center"/>
+                <MenuItem Header="Перейти..." Name="mmEditGoTo" VerticalAlignment="Center"/>
+                <Separator/>
+                <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center"/>
+                <MenuItem Header="Время и дата" Name="mmEditTimeAndData" VerticalAlignment="Center"/>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</Window>

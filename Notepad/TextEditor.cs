@@ -55,6 +55,14 @@ namespace Notepad
             }
         }
 
+        public int ContentLinesCount
+        {
+            get
+            {
+                return _content.Split('\n').Length;
+            }
+        }
+
         public string Content 
         { 
             get
@@ -67,6 +75,7 @@ namespace Notepad
                 NotifyPropertyChanged("Content");
                 NotifyPropertyChanged("ContentLength");
                 NotifyPropertyChanged("ContentLengthWithoutSpaces");
+                NotifyPropertyChanged("ContentLinesCount");
             }
         }
 
@@ -90,7 +99,7 @@ namespace Notepad
         {
             get
             {
-                return _content.Length;
+                return ((_content.Replace("\n", "")).Replace("\r", "")).Length;
             }
         }
 

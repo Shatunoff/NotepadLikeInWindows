@@ -117,5 +117,16 @@ namespace Notepad
         {
             tbNotepad.Redo();
         }
+
+        private void mmEditSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.SelectAll();
+        }
+
+        private void mmEditTimeAndData_Click(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.SelectedText = DateTime.Now.ToShortTimeString() + " " + DateTime.Now.ToShortDateString();
+            tbNotepad.SelectionLength = 0;
+        }
     }
 }

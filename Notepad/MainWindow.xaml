@@ -40,8 +40,8 @@
                 <MenuItem Header="Заменить..." Name="mmEditReplace" VerticalAlignment="Center"/>
                 <MenuItem Header="Перейти..." Name="mmEditGoTo" VerticalAlignment="Center"/>
                 <Separator/>
-                <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center"/>
-                <MenuItem Header="Время и дата" Name="mmEditTimeAndData" VerticalAlignment="Center"/>
+                <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center" Click="mmEditSelectAll_Click"/>
+                <MenuItem Header="Время и дата" Name="mmEditTimeAndData" VerticalAlignment="Center" Click="mmEditTimeAndData_Click"/>
             </MenuItem>
             <MenuItem Header="Формат" Name="mmFormat">
                 <MenuItem Header="Перенос по словам" Name="mmFormatWrap" VerticalAlignment="Center" IsCheckable="True"/>

@@ -16,7 +16,6 @@ namespace Notepad
         private string _fileName;
         private string _filePath;
         private string _content;
-        private string _contentEncodingName;
         private Encoding _contentEncoding;
 
         public string FileName
@@ -60,16 +59,19 @@ namespace Notepad
             }
         }
 
+        public string ContentEncodingHeaderName
+        {
+            get
+            {
+                return _contentEncoding.HeaderName;
+            }
+        }
+
         public string ContentEncodingName
         {
             get
             {
-                return _contentEncodingName;
-            }
-            set
-            {
-                _contentEncodingName = value;
-                NotifyPropertyChanged("ContentEncodingName");
+                return _contentEncoding.EncodingName;
             }
         }
 
@@ -99,6 +101,8 @@ namespace Notepad
             {
                 _contentEncoding = value;
                 NotifyPropertyChanged("ContentEncoding");
+                NotifyPropertyChanged("ContentEncodingName");
+                NotifyPropertyChanged("ContentEncodingHeaderName");
             }
         }
 
@@ -123,7 +127,6 @@ namespace Notepad
             FileName = "Безымянный";
             Content = String.Empty;
             ContentEncoding = Encoding.UTF8;
-            ContentEncodingName = Encoding.UTF8.HeaderName.ToUpper();
         }
 
         public void LoadFile(string fileName)
@@ -138,7 +141,6 @@ namespace Notepad
                 FilePath = fileName; 
                 Content = sr.ReadToEnd();
                 ContentEncoding = sr.CurrentEncoding;
-                ContentEncodingName = sr.CurrentEncoding.HeaderName.ToUpper();
             }
             catch(Exception e)
             {

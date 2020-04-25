@@ -61,12 +61,12 @@
         <TextBox Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
         <StatusBar Name="statusStrip" Grid.Row="2" VerticalAlignment="Bottom">
             <StatusBarItem Name="sbi" Content="Hello! My name is sbi." HorizontalAlignment="Stretch"/>
-            <StatusBarItem Name="sbiTextLenLabel" Content="Символов всего:" HorizontalAlignment="Left" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
+            <StatusBarItem Content="Символов всего:" HorizontalAlignment="Left" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
             <StatusBarItem Name="sbiTextLenGet" Content="{Binding ContentLength, Mode=Default, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
-            <StatusBarItem Name="sbiTextLenWithoutSpacesLabel" Content="Без пробелов:" HorizontalAlignment="Left"/>
-            <StatusBarItem Name="sbiTextLenWithoutSpacesGet" Content="{Binding ContentLengthWithoutSpaces, Mode=Default, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
-            <StatusBarItem Name="sbiEncodingLabel" Content="Кодировка:" HorizontalAlignment="Left" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
-            <StatusBarItem Name="sbiEncoding" Content="{Binding ContentEncodingName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+            <StatusBarItem Content="Без пробелов:" HorizontalAlignment="Left"/>
+            <StatusBarItem Name="sbiTextLenWithoutSpacesGet" Content="{Binding ContentLengthWithoutSpaces, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+            <StatusBarItem Content="Кодировка:" HorizontalAlignment="Left" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
+            <StatusBarItem Name="sbiEncodingName" Content="{Binding ContentEncodingName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
         </StatusBar>
     </Grid>
 </Window>

@@ -4,15 +4,57 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Notepad
 {
-    public class TextEditor
+    public class TextEditor : INotifyPropertyChanged
     {
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
-        public string Content { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private string _fileName;
+        private string _filePath;
+        private string _content;
+
+        public string FileName
+        {
+            get
+            {
+                return _fileName;
+            }
+            private set
+            {
+                _fileName = value;
+                NotifyPropertyChanged("FileName");
+            }
+        }
+
+        public string FilePath 
+        { 
+            get
+            {
+                return _filePath;
+            }
+            private set
+            {
+                _filePath = value;
+                NotifyPropertyChanged("FilePath");
+            }
+        }
+
+        public string Content 
+        { 
+            get
+            {
+                return _content;
+            }
+            set
+            {
+                _content = value;
+                NotifyPropertyChanged("Content");
+            }
+        }
 
         public TextEditor()
         {
@@ -22,6 +64,12 @@ namespace Notepad
         public TextEditor(string fileName)
         {
             LoadFile(fileName);
+        }
+
+        // Уведомление об изменении свойства
+        public void NotifyPropertyChanged(string propName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
         public void CreateNew()
@@ -39,10 +87,8 @@ namespace Notepad
                 fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                 sr = new StreamReader(fs, true);
                 FileName = Path.GetFileName(fileName);
-                FilePath = fileName;
-                Content = String.Empty;
-                while (!sr.EndOfStream)
-                    Content += sr.Read();
+                FilePath = fileName; 
+                Content = sr.ReadToEnd();
             }
             catch(Exception e)
             {
@@ -64,6 +110,8 @@ namespace Notepad
                 fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
                 sw = new StreamWriter(fs, Encoding.Unicode);
                 sw.Write(Content);
+                FilePath = fileName;
+                FileName = Path.GetFileName(fileName);
             }
             catch(Exception e)
             {

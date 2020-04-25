@@ -14,10 +14,10 @@
         </Grid.RowDefinitions>
         <Menu x:Name="mainMenu" VerticalAlignment="Bottom" Grid.Row="0" BorderBrush="#FFF0F0F0" Background="White">
             <MenuItem Header="Файл" Name="mmFile">
-                <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center"/>
+                <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center" Click="mmFileCreate_Click"/>
                 <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center"/>
                 <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center" Click="mmFileOpen_Click"/>
-                <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center"/>
+                <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center" Click="mmFileSave_Click"/>
                 <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center" Click="mmFileSaveAs_Click"/>
                 <Separator/>
                 <MenuItem Header="Параметры страницы..." Name="mmFilePropertyPage" VerticalAlignment="Center"/>
@@ -58,9 +58,9 @@
                 <MenuItem Header="О программе" Name="mmHelpAboutProgram" VerticalAlignment="Center"/>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionBrush="#FFF1EDED" AcceptsReturn="True" BorderBrush="#FFF1EDED" Text="{Binding Content}"/>
+        <TextBox Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionBrush="#FFF1EDED" AcceptsReturn="True" BorderBrush="#FFF1EDED" Text="{Binding Path=Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
         <StatusBar Name="statusStrip" Grid.Row="2" VerticalAlignment="Bottom">
-            <StatusBarItem Content="Hello StatusBar"/>
+            <StatusBarItem Name="sbi" Content="Hello! My name is sbi."/>
         </StatusBar>
     </Grid>
 </Window>

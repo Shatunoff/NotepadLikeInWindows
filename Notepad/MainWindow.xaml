@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800" MinWidth="360" MinHeight="240">
+        Title="{Binding WindowTitle}" Height="450" Width="800" MinWidth="360" MinHeight="240" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Menu x:Name="mainMenu" VerticalAlignment="Bottom" Grid.Row="0" BorderBrush="#FFF0F0F0" Background="White">
+        <Menu x:Name="mainMenu" VerticalAlignment="Bottom" Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#FFD6D3D3" Background="White">
             <MenuItem Header="Файл" Name="mmFile">
                 <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center" Click="mmFileCreate_Click"/>
                 <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center"/>
@@ -26,12 +26,13 @@
                 <MenuItem Header="Выход" Name="mmFileExit" VerticalAlignment="Center"/>
             </MenuItem>
             <MenuItem Header="Правка" Name="mmEdit">
-                <MenuItem Header="Отменить" Name="mmEditUndo" VerticalAlignment="Center"/>
+                <MenuItem Header="Отменить" Name="mmEditUndo" VerticalAlignment="Center" Click="mmEditUndo_Click"/>
+                <MenuItem Header="Повторить" Name="mmEditRedo" VerticalAlignment="Center" Click="mmEditRedo_Click"/>
                 <Separator/>
-                <MenuItem Header="Вырезать" Name="mmEditCut" VerticalAlignment="Center"/>
-                <MenuItem Header="Копировать" Name="mmEditCopy" VerticalAlignment="Center"/>
-                <MenuItem Header="Вставить" Name="mmEditPaste" VerticalAlignment="Center"/>
-                <MenuItem Header="Удалить" Name="mmEditRemove" VerticalAlignment="Center"/>
+                <MenuItem Header="Вырезать" Name="mmEditCut" VerticalAlignment="Center" Click="mmEditCut_Click"/>
+                <MenuItem Header="Копировать" Name="mmEditCopy" VerticalAlignment="Center" Click="mmEditCopy_Click"/>
+                <MenuItem Header="Вставить" Name="mmEditPaste" VerticalAlignment="Center" Click="mmEditPaste_Click"/>
+                <MenuItem Header="Удалить" Name="mmEditRemove" VerticalAlignment="Center" Click="mmEditRemove_Click"/>
                 <Separator/>
                 <MenuItem Header="Найти..." Name="mmEditFind" VerticalAlignment="Center"/>
                 <MenuItem Header="Найти далее" Name="mmEditFindNext" VerticalAlignment="Center"/>
@@ -60,15 +61,15 @@
             </MenuItem>
         </Menu>
         <TextBox Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
-        <StatusBar Name="statusStrip" Grid.Row="2">
+        <StatusBar Name="statusStrip" Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="#FFD6D3D3">
             <StatusBarItem Name="sbi" Content="Hello! My name is sbi."/>
-            <StatusBarItem Content="Строк:" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
+            <StatusBarItem Content="Строк:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
             <StatusBarItem Name="sbiTextLinesCount" Content="{Binding ContentLinesCount, UpdateSourceTrigger=PropertyChanged}"/>
             <StatusBarItem Content="Символов всего:"/>
             <StatusBarItem Name="sbiTextLenGet" Content="{Binding ContentLength, UpdateSourceTrigger=PropertyChanged}"/>
             <StatusBarItem Content="Без пробелов:"/>
             <StatusBarItem Name="sbiTextLenWithoutSpacesGet" Content="{Binding ContentLengthWithoutSpaces, UpdateSourceTrigger=PropertyChanged}"/>
-            <StatusBarItem Content="Кодировка:" BorderThickness="1,0,0,0" BorderBrush="#FFD1D1D1"/>
+            <StatusBarItem Content="Кодировка:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
             <StatusBarItem Name="sbiEncodingName" Content="{Binding ContentEncodingName, UpdateSourceTrigger=PropertyChanged}"/>
         </StatusBar>
     </Grid>

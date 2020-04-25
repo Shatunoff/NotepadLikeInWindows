@@ -32,6 +32,7 @@ namespace Notepad
     //TODO:Окно "О программе"
     //TODO:Запоминание пользовательских установок (размер окна, шрифт, отображение строки состояния, перенос по словам) (отдельным статическим классом, который берет информацию из Property.Settings)
     //TODO:Отображение координат курсора в строке состояния (строка, столбец)
+    //TODO:Индикатор изменения текста для вывода подтверждения о закрытии или создании нового документов до сохранения старого.
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
@@ -83,6 +84,38 @@ namespace Notepad
 
             if(save.ShowDialog() == true)
                 textEditor.SaveFile(save.FileName);
+        }
+
+        private void mmEditUndo_Click(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.Undo();
+        }
+
+        private void mmEditCut_Click(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.Cut();
+        }
+
+        private void mmEditCopy_Click(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.Copy();
+        }
+
+        private void mmEditPaste_Click(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.Paste();
+        }
+
+        private void mmEditRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (tbNotepad.SelectionLength < 1)
+                tbNotepad.Select(tbNotepad.SelectionStart, 1);
+            tbNotepad.SelectedText = String.Empty;
+        }
+
+        private void mmEditRedo_Click(object sender, RoutedEventArgs e)
+        {
+            tbNotepad.Redo();
         }
     }
 }

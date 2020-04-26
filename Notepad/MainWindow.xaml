@@ -15,7 +15,7 @@
         <Menu x:Name="mainMenu" VerticalAlignment="Bottom" Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#FFD6D3D3" Background="White">
             <MenuItem Header="Файл" Name="mmFile">
                 <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center" Click="mmFileCreate_Click"/>
-                <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center"/>
+                <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center" Click="mmFileNewWindow_Click"/>
                 <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center" Click="mmFileOpen_Click"/>
                 <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center" Click="mmFileSave_Click"/>
                 <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center" Click="mmFileSaveAs_Click"/>
@@ -23,7 +23,7 @@
                 <MenuItem Header="Параметры страницы..." Name="mmFilePropertyPage" VerticalAlignment="Center"/>
                 <MenuItem Header="Печать..." Name="mmFilePrint" VerticalAlignment="Center"/>
                 <Separator/>
-                <MenuItem Header="Выход" Name="mmFileExit" VerticalAlignment="Center"/>
+                <MenuItem Header="Выход" Name="mmFileExit" VerticalAlignment="Center" Click="mmFileExit_Click"/>
             </MenuItem>
             <MenuItem Header="Правка" Name="mmEdit">
                 <MenuItem Header="Отменить" Name="mmEditUndo" VerticalAlignment="Center" Click="mmEditUndo_Click"/>

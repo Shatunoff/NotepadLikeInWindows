@@ -1,7 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,6 +30,7 @@ namespace Notepad
     //TODO:Окно "О программе"
     //TODO:Отображение координат курсора в строке состояния (строка, столбец)
     //TODO:Индикатор изменения текста для вывода подтверждения о закрытии или создании нового документов до сохранения старого.
+    //TODO:Чтение аргументов командной строки для запуска текстовых файлов через мой блокнот
 
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -275,6 +279,16 @@ namespace Notepad
             font.Font = options.TextFont;
             if (font.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 options.TextFont = font.Font;
+        }
+
+        private void mmFileNewWindow_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(Assembly.GetExecutingAssembly().Location);
+        }
+
+        private void mmFileExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

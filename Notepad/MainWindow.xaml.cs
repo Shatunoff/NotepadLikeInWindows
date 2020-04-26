@@ -21,7 +21,6 @@ using System.Windows.Shapes;
 
 namespace Notepad
 {
-    //TODO:Открытие нового экземпляра приложения
     //TODO:Печать и параметры печати
     //TODO:Поиск по документу (Найти, Найти далее, Найти ранее)
     //TODO:Замена внутри документа
@@ -138,7 +137,7 @@ namespace Notepad
             bindTextTitle.Path = new PropertyPath("WindowTitle"); // свойство элемента-источника
             bindTextTitle.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             this.SetBinding(Window.TitleProperty, bindTextTitle); // установка привязки для элемента-приемника
-            //Text в tbNotepad
+            // Text в tbNotepad
             Binding bindTextContent = new Binding();
             bindTextContent.Source = textEditor; // элемент-источник
             bindTextContent.Path = new PropertyPath("Content"); // свойство элемента-источника
@@ -289,6 +288,11 @@ namespace Notepad
         private void mmFileExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void tbNotepad_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            textEditor.ContentChanged = true;
         }
     }
 }

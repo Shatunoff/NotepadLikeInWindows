@@ -25,7 +25,6 @@ namespace Notepad
     //TODO:Переход к указанной строке (при отсутствии переноса по словам)
     //TODO:Масштаб текста (если возможно)
     //TODO:Окно "О программе"
-    //TODO:Запоминание пользовательских установок (размер окна, шрифт, отображение строки состояния, перенос по словам) (отдельным статическим классом, который берет информацию из Property.Settings)
     //TODO:Отображение координат курсора в строке состояния (строка, столбец)
     //TODO:Индикатор изменения текста для вывода подтверждения о закрытии или создании нового документов до сохранения старого.
 
@@ -40,9 +39,6 @@ namespace Notepad
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = tbNotepad.DataContext = statusStrip.DataContext = textEditor;
-            //tbNotepad.Language = XmlLanguage.GetLanguage("ru-RU");
-            //mmViewStatusStrip.IsChecked = statusStrip.Visibility == Visibility.Visible ? true : false;
             SetBindingOptions();
             SetBindingTextEditor();
         }

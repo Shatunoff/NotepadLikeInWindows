@@ -16,13 +16,25 @@ namespace Notepad
     public class TextEditor : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
+        private bool _contentChanged;
         private string _fileName;
         private string _filePath;
         private string _content;
         private Encoding _contentEncoding;
 
-        public bool ContentChanged { get; set; }
+        public bool ContentChanged 
+        { 
+            get
+            {
+                return _contentChanged;
+            }
+            set
+            {
+                _contentChanged = value;
+                NotifyPropertyChanged("WindowTitle");
+            }
+        }
 
         public string FileName
         {
@@ -41,7 +53,10 @@ namespace Notepad
         {
             get
             {
-                return _fileName + " - " + Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
+                string result = _fileName + " - " + Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
+                if (ContentChanged)
+                    return "*" + result;
+                else return result;
             }
         }
 

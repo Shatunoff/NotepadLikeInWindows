@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Reflection;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace Notepad
@@ -125,6 +126,88 @@ namespace Notepad
                 NotifyPropertyChanged("ContentEncodingHeaderName");
             }
         }
+
+        //#region Размеры главного окна
+        //public int WindowWidth
+        //{
+        //    get
+        //    {
+        //        return Properties.Settings.Default.WindowWidth;
+        //    }
+        //    set
+        //    {
+        //        Properties.Settings.Default.WindowWidth = value;
+        //        Properties.Settings.Default.Save();
+        //        NotifyPropertyChanged("WindowWidth");
+        //    }
+        //}
+
+        //public int WindowHeight
+        //{
+        //    get
+        //    {
+        //        return Properties.Settings.Default.WindowHeight;
+        //    }
+        //    set
+        //    {
+        //        Properties.Settings.Default.WindowHeight = value;
+        //        Properties.Settings.Default.Save();
+        //        NotifyPropertyChanged("WindowHeight");
+        //    }
+        //}
+        //#endregion
+
+        //#region Настройки шрифта
+        //public System.Drawing.Font TextFont
+        //{
+        //    get
+        //    {
+        //        return Properties.Settings.Default.TextFont;
+        //    }
+        //    set
+        //    {
+        //        Properties.Settings.Default.TextFont = value;
+        //        Properties.Settings.Default.Save();
+        //        NotifyPropertyChanged("TextFont");
+        //        NotifyPropertyChanged("TextFontFamily");
+        //        NotifyPropertyChanged("TextFontSize");
+        //        NotifyPropertyChanged("TextFontWeight");
+        //        NotifyPropertyChanged("TextFontStyle");
+        //    }
+        //}
+
+        //public string TextFontFamily
+        //{
+        //    get
+        //    {
+        //        return TextFont.Name;
+        //    }
+        //}
+
+        //public float TextFontSize
+        //{
+        //    get
+        //    {
+        //        return TextFont.Size * 96 / 72;
+        //    }
+        //}
+
+        //public System.Windows.FontWeight TextFontWeight
+        //{
+        //    get
+        //    {
+        //        return TextFont.Bold ? FontWeights.Bold : FontWeights.Regular;
+        //    }
+        //}
+
+        //public System.Windows.FontStyle TextFontStyle
+        //{
+        //    get
+        //    {
+        //        return TextFont.Italic ? FontStyles.Italic : FontStyles.Normal;
+        //    }
+        //}
+        //#endregion
 
         public TextEditor()
         {

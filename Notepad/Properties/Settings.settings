@@ -1,7 +1,30 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Notepad.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WindowHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">480</Value>
+    </Setting>
+    <Setting Name="WindowWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">640</Value>
+    </Setting>
+    <Setting Name="TextFont" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">Consolas, 11.25pt</Value>
+    </Setting>
+    <Setting Name="StatusStripVisiblity" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TextWrapping" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SpellChecking" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SpellCheckDictonary" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ru-RU</Value>
+    </Setting>
+    <Setting Name="Параметр" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
 </SettingsFile>

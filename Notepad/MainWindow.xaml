@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}" Height="450" Width="800" MinWidth="360" MinHeight="240" ResizeMode="CanResizeWithGrip">
+        Title="Блокнот как в Windows" Height="480" Width="640" MinWidth="360" MinHeight="240" ResizeMode="CanResizeWithGrip">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -47,7 +47,7 @@
                 <MenuItem Header="Перенос по словам" Name="mmFormatWrap" VerticalAlignment="Center" IsCheckable="True" Checked="mmFormatWrap_Checked" Unchecked="mmFormatWrap_Unchecked"/>
                 <MenuItem Header="Проверка орфографии" Name="mmFormatSpellCheck" VerticalAlignment="Center" IsCheckable="True" Checked="mmViewSpellCheck_Checked" Unchecked="mmViewSpellCheck_Unchecked">
                 </MenuItem>
-                <MenuItem Header="Шрифт..." Name="mmFormatFont" VerticalAlignment="Center"/>
+                <MenuItem Header="Шрифт..." Name="mmFormatFont" VerticalAlignment="Center" Click="mmFormatFont_Click"/>
             </MenuItem>
             <MenuItem Header="Вид" Name="mmView">
                 <MenuItem Header="Масштаб" Name="mmViewScale">
@@ -55,23 +55,23 @@
                     <MenuItem Header="Уменьшить" Name="mmViewScaleMinus" VerticalAlignment="Center"/>
                     <MenuItem Header="Восстановить масштаб по умолчанию" Name="mmViewScaleDefault" VerticalAlignment="Center"/>
                 </MenuItem>
-                <MenuItem Header="Строка состояния" Name="mmViewStatusStrip" VerticalAlignment="Center" IsCheckable="True" Checked="mmViewStatusStrip_Checked" Unchecked="mmViewStatusStrip_Unchecked"/>
+                <MenuItem Header="Строка состояния" Name="mmViewStatusStrip" VerticalAlignment="Center" IsCheckable="True"/>
             </MenuItem>
             <MenuItem Header="Справка" Name="mmHelp">
                 <MenuItem Header="О программе" Name="mmHelpAboutProgram" VerticalAlignment="Center"/>
             </MenuItem>
         </Menu>
-        <TextBox Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
         <StatusBar Name="statusStrip" Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="#FFD6D3D3">
             <StatusBarItem Name="sbi" Content="Hello! My name is sbi."/>
             <StatusBarItem Name="sbiTextLinesCountLabel" Content="Строк:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
-            <StatusBarItem Name="sbiTextLinesCount" Content="{Binding ContentLinesCount, UpdateSourceTrigger=PropertyChanged}"/>
+            <StatusBarItem Name="sbiTextLinesCount"/>
             <StatusBarItem Content="Символов всего:"/>
-            <StatusBarItem Name="sbiTextLenGet" Content="{Binding ContentLength, UpdateSourceTrigger=PropertyChanged}"/>
+            <StatusBarItem Name="sbiTextLenGet"/>
             <StatusBarItem Content="Без пробелов:"/>
-            <StatusBarItem Name="sbiTextLenWithoutSpacesGet" Content="{Binding ContentLengthWithoutSpaces, UpdateSourceTrigger=PropertyChanged}"/>
+            <StatusBarItem Name="sbiTextLenWithoutSpacesGet"/>
             <StatusBarItem Content="Кодировка:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
-            <StatusBarItem Name="sbiEncodingName" Content="{Binding ContentEncodingName, UpdateSourceTrigger=PropertyChanged}"/>
+            <StatusBarItem Name="sbiEncodingName"/>
         </StatusBar>
     </Grid>
 </Window>

@@ -24,7 +24,6 @@ namespace Notepad
     //TODO:Печать и параметры печати
     //TODO:Поиск по документу (Найти, Найти далее, Найти ранее)
     //TODO:Замена внутри документа
-    //TODO:Переход к указанной строке (при отсутствии переноса по словам)
     //TODO:Масштаб текста (если возможно)
     //TODO:Окно "О программе"
     //TODO:Отображение координат курсора в строке состояния (строка, столбец)
@@ -172,20 +171,53 @@ namespace Notepad
 
         private void mmFileCreate_Click(object sender, RoutedEventArgs e)
         {
-            textEditor.CreateNew();
+            if (textEditor.ContentChanged)
+            {
+                confirmationWindow confirm = new confirmationWindow(textEditor.FileName);
+                confirm.Owner = this;
+                confirm.ShowDialog();
+                if (confirm.ConfirmationResult == confirmationResult.YES)
+                {
+                    mmFileSave_Click(sender, e);
+                    mmFileCreate_Click(sender, e);
+                }
+                if (confirm.ConfirmationResult == confirmationResult.NO)
+                    textEditor.CreateNew();
+            }
+            else
+                textEditor.CreateNew();
+
         }
 
         private void mmFileOpen_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog open = new OpenFileDialog() 
-            { 
-                Title = "Открыть текстовый файл", 
-                Filter = "Текстовые файлы (*.txt) |*.txt| Все файлы (*.*)|*.*" 
+            if (textEditor.ContentChanged)
+            {
+                confirmationWindow confirm = new confirmationWindow(textEditor.FileName);
+                confirm.Owner = this;
+                confirm.ShowDialog();
+                if (confirm.ConfirmationResult == confirmationResult.YES)
+                {
+                    mmFileSave_Click(sender, e);
+                    mmFileOpen_Click(sender, e);
+                }
+                if (confirm.ConfirmationResult == confirmationResult.NO)
+                    FileOpen();
+            }
+            else
+                FileOpen();
+        }
+
+        private void FileOpen()
+        {
+            OpenFileDialog open = new OpenFileDialog()
+            {
+                Title = "Открыть текстовый файл",
+                Filter = "Текстовые файлы (*.txt) |*.txt| Все файлы (*.*)|*.*"
             };
 
             if (open.ShowDialog() == true)
                 textEditor.LoadFile(open.FileName);
-
         }
 
         private void mmFileSave_Click(object sender, RoutedEventArgs e)
@@ -307,6 +339,25 @@ namespace Notepad
                 tbNotepad.CaretIndex = tbNotepad.SelectionStart;
                 tbNotepad.ScrollToLine(go.GoToLine - 1);
                 tbNotepad.Focus();
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (textEditor.ContentChanged)
+            {
+                confirmationWindow confirm = new confirmationWindow(textEditor.FileName);
+                confirm.Owner = this;
+                confirm.ShowDialog();
+                if (confirm.ConfirmationResult == confirmationResult.YES)
+                {
+                    mmFileSave_Click(sender, new RoutedEventArgs());
+                    e.Cancel = false;
+                }
+                if (confirm.ConfirmationResult == confirmationResult.NO)
+                    e.Cancel = false;
+                if (confirm.ConfirmationResult == confirmationResult.CANCEL)
+                    e.Cancel = true;
             }
         }
     }

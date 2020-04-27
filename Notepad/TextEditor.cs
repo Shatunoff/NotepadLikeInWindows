@@ -164,6 +164,7 @@ namespace Notepad
         public void CreateNew()
         {
             FileName = "Безымянный";
+            FilePath = null;
             Content = String.Empty;
             ContentEncoding = Encoding.UTF8;
             ContentChanged = false;

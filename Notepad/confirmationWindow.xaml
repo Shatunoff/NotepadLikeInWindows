@@ -1,0 +1,26 @@
+﻿<Window x:Class="Notepad.confirmationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad"
+        mc:Ignorable="d"
+        Title="confirmation" Height="150" Width="330" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Foreground="#FF1E586E">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Name="tbQuestion" Text="Вы хотите сохранить изменения в файле Безымянный?" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="Microsoft Sans Serif" FontSize="14" Foreground="#FF2774B4"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="btnSave" Content="Сохранить" Grid.Column="0" Margin="40,10,5,10" FontFamily="Microsoft Sans Serif" FontSize="11" Click="btnSave_Click" IsDefault="True"/>
+            <Button Name="btnNotSave" Content="Не сохранять" Grid.Column="1" Margin="5,10" FontFamily="Microsoft Sans Serif" FontSize="11" Click="btnNotSave_Click"/>
+            <Button Name="btnCancel" Content="Отменить" Grid.Column="2" Margin="5,10" FontFamily="Microsoft Sans Serif" FontSize="11" Click="btnCancel_Click" IsCancel="True"/>
+        </Grid>
+    </Grid>
+</Window>

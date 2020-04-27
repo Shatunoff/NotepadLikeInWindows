@@ -57,9 +57,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GoToWindow.xaml.cs">
+      <DependentUpon>GoToWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Options.cs" />
     <Compile Include="TextEditor.cs" />
     <Page Include="AboutProgramWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GoToWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

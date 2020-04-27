@@ -38,7 +38,7 @@
                 <MenuItem Header="Найти далее" Name="mmEditFindNext" VerticalAlignment="Center"/>
                 <MenuItem Header="Найти ранее" Name="mmEditFindBack" VerticalAlignment="Center"/>
                 <MenuItem Header="Заменить..." Name="mmEditReplace" VerticalAlignment="Center"/>
-                <MenuItem Header="Перейти..." Name="mmEditGoTo" VerticalAlignment="Center"/>
+                <MenuItem Header="Перейти..." Name="mmEditGoTo" Click="mmEditGoTo_Click"/>
                 <Separator/>
                 <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center" Click="mmEditSelectAll_Click"/>
                 <MenuItem Header="Время и дата" Name="mmEditTimeAndData" VerticalAlignment="Center" Click="mmEditTimeAndData_Click"/>

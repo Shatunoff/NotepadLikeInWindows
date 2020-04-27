@@ -294,5 +294,20 @@ namespace Notepad
         {
             textEditor.ContentChanged = true;
         }
+
+        private void mmEditGoTo_Click(object sender, RoutedEventArgs e)
+        {
+            GoToWindow go = new GoToWindow(textEditor.ContentLinesCount);
+            go.Owner = this;
+            go.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (go.ShowDialog().Value)
+            {
+                tbNotepad.SelectionStart = tbNotepad.GetCharacterIndexFromLineIndex(go.GoToLine - 1);
+                tbNotepad.SelectionLength = tbNotepad.GetLineLength(go.GoToLine - 1);
+                tbNotepad.CaretIndex = tbNotepad.SelectionStart;
+                tbNotepad.ScrollToLine(go.GoToLine - 1);
+                tbNotepad.Focus();
+            }
+        }
     }
 }

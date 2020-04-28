@@ -68,8 +68,10 @@
             <StatusBarItem Name="sbiTextLinesCount"/>
             <StatusBarItem Content="Символов всего:"/>
             <StatusBarItem Name="sbiTextLenGet"/>
+            <StatusBarItem Name="sbiTextSelectLenGet"/>
             <StatusBarItem Content="Без пробелов:"/>
             <StatusBarItem Name="sbiTextLenWithoutSpacesGet"/>
+            <StatusBarItem Name="sbiTextSelectLenWithoutSpacesGet"/>
             <StatusBarItem Content="Кодировка:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
             <StatusBarItem Name="sbiEncodingName"/>
         </StatusBar>

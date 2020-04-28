@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
-        Title="confirmation" Height="150" Width="330" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Foreground="#FF1E586E" WindowStyle="ToolWindow">
+        Title="confirmation" Height="150" Width="330" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Foreground="#FF1E586E" WindowStyle="ToolWindow" ShowInTaskbar="False">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>

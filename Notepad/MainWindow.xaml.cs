@@ -379,8 +379,11 @@ namespace Notepad
             int lineIndex = tbNotepad.GetLineIndexFromCharacterIndex(tbNotepad.SelectionStart);
             int colIndex = tbNotepad.SelectionStart - tbNotepad.GetCharacterIndexFromLineIndex(lineIndex);
             sbiCursorPosition.Content = $"Стр {lineIndex + 1}, стлб {colIndex + 1}";
-            sbiTextSelectLenGet.Content = $"({tbNotepad.SelectedText.Length})";
-            sbiTextSelectLenWithoutSpacesGet.Content = $"({(((tbNotepad.SelectedText.Replace('\n', ' ')).Replace('\r', ' ')).Replace(" ", "")).Length})";
+            if (tbNotepad.SelectionLength > 0)
+            {
+                sbiTextSelectLenGet.Content = $"({tbNotepad.SelectionLength})";
+                sbiTextSelectLenWithoutSpacesGet.Content = $"({(((tbNotepad.SelectedText.Replace('\n', ' ')).Replace('\r', ' ')).Replace(" ", "")).Length})";
+            }
         }
 
         private void mmHelpAboutProgram_Click(object sender, RoutedEventArgs e)

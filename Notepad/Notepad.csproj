@@ -7,7 +7,7 @@
     <ProjectGuid>{06E8C95D-5516-4531-88C7-1B96D4917203}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Notepad</RootNamespace>
-    <AssemblyName>Notepad</AssemblyName>
+    <AssemblyName>NotepadLikeInWindows</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -33,6 +33,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Notepad_22522.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -126,6 +132,12 @@
     <Resource Include="Notepad.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Notepad_22522.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Notepad_22522.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

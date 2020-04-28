@@ -21,7 +21,7 @@
         <TextBlock Name="labelVersion" Grid.Row="2"/>
         <TextBlock Name="labelCopyright" Grid.Row="3"/>
         <TextBlock Name="labelCompanyName" Grid.Row="4"/>
-        <TextBox Name="textBoxDescription" Grid.Row="5"/>
+        <TextBox Name="textBoxDescription" Grid.Row="5" TextWrapping="Wrap"/>
         <Button Name="btnOK" Grid.Row="6" Content="ОК" Width="100" Height="24" FontSize="12" HorizontalAlignment="Right" Margin="0,0,10,0" IsDefault="True" Click="btnOK_Click"/>
     </Grid>
 </Window>

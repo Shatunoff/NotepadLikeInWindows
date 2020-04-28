@@ -8,7 +8,7 @@ using System.Windows;
 // набор атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 [assembly: AssemblyTitle("Блокнот как в Windows")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Текстовый редактор, который практически полностью повторяет функционал стандартного блокнота Windows. Реализация на WPF. Использование привязки данных, регулярных выражений, LINQ, событий.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Shatunoff")]
 [assembly: AssemblyProduct("Notepad")]

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
-        Title="Блокнот как в Windows" Height="480" Width="640" MinWidth="360" MinHeight="240" ResizeMode="CanResizeWithGrip" Closing="Window_Closing">
+        Title="Блокнот как в Windows" Height="480" Width="640" MinWidth="360" MinHeight="240" ResizeMode="CanResizeWithGrip" Closing="Window_Closing" Icon="Notepad_22522.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -14,34 +14,34 @@
         </Grid.RowDefinitions>
         <Menu x:Name="mainMenu" VerticalAlignment="Bottom" Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#FFD6D3D3" Background="White">
             <MenuItem Header="Файл" Name="mmFile">
-                <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center" Click="mmFileCreate_Click"/>
-                <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center" Click="mmFileNewWindow_Click"/>
-                <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center" Click="mmFileOpen_Click"/>
-                <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center" Click="mmFileSave_Click"/>
-                <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center" Click="mmFileSaveAs_Click"/>
+                <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center" Click="mmFileCreate_Click" InputGestureText="CTRL+N"/>
+                <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center" Click="mmFileNewWindow_Click" InputGestureText="CTRL+SHIFT+N"/>
+                <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center" Click="mmFileOpen_Click" InputGestureText="CTRL+O"/>
+                <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center" Click="mmFileSave_Click"  InputGestureText="CTRL+S"/>
+                <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center" Click="mmFileSaveAs_Click"  InputGestureText="CTRL+SHIFT+S"/>
                 <Separator/>
                 <MenuItem Header="Параметры страницы..." Name="mmFilePropertyPage" VerticalAlignment="Center"/>
-                <MenuItem Header="Печать..." Name="mmFilePrint" VerticalAlignment="Center"/>
+                <MenuItem Header="Печать..." Name="mmFilePrint" VerticalAlignment="Center"  InputGestureText="CTRL+P"/>
                 <Separator/>
                 <MenuItem Header="Выход" Name="mmFileExit" VerticalAlignment="Center" Click="mmFileExit_Click"/>
             </MenuItem>
             <MenuItem Header="Правка" Name="mmEdit">
-                <MenuItem Header="Отменить" Name="mmEditUndo" VerticalAlignment="Center" Click="mmEditUndo_Click"/>
-                <MenuItem Header="Повторить" Name="mmEditRedo" VerticalAlignment="Center" Click="mmEditRedo_Click"/>
+                <MenuItem Header="Отменить" Name="mmEditUndo" VerticalAlignment="Center" Click="mmEditUndo_Click"  InputGestureText="CTRL+Z"/>
+                <MenuItem Header="Повторить" Name="mmEditRedo" VerticalAlignment="Center" Click="mmEditRedo_Click"  InputGestureText="CTRL+SHIFT+Z"/>
                 <Separator/>
-                <MenuItem Header="Вырезать" Name="mmEditCut" VerticalAlignment="Center" Click="mmEditCut_Click"/>
-                <MenuItem Header="Копировать" Name="mmEditCopy" VerticalAlignment="Center" Click="mmEditCopy_Click"/>
-                <MenuItem Header="Вставить" Name="mmEditPaste" VerticalAlignment="Center" Click="mmEditPaste_Click"/>
-                <MenuItem Header="Удалить" Name="mmEditRemove" VerticalAlignment="Center" Click="mmEditRemove_Click"/>
+                <MenuItem Header="Вырезать" Name="mmEditCut" VerticalAlignment="Center" Click="mmEditCut_Click"  InputGestureText="CTRL+X"/>
+                <MenuItem Header="Копировать" Name="mmEditCopy" VerticalAlignment="Center" Click="mmEditCopy_Click"  InputGestureText="CTRL+C" ToolTip=""/>
+                <MenuItem Header="Вставить" Name="mmEditPaste" VerticalAlignment="Center" Click="mmEditPaste_Click"  InputGestureText="CTRL+V"/>
+                <MenuItem Header="Удалить" Name="mmEditRemove" VerticalAlignment="Center" Click="mmEditRemove_Click"  InputGestureText="DEL"/>
                 <Separator/>
-                <MenuItem Header="Найти..." Name="mmEditFind" VerticalAlignment="Center"/>
-                <MenuItem Header="Найти далее" Name="mmEditFindNext" VerticalAlignment="Center"/>
-                <MenuItem Header="Найти ранее" Name="mmEditFindBack" VerticalAlignment="Center"/>
-                <MenuItem Header="Заменить..." Name="mmEditReplace" VerticalAlignment="Center"/>
-                <MenuItem Header="Перейти..." Name="mmEditGoTo" Click="mmEditGoTo_Click"/>
+                <MenuItem Header="Найти..." Name="mmEditFind" VerticalAlignment="Center"  InputGestureText="CTRL+F"/>
+                <MenuItem Header="Найти далее" Name="mmEditFindNext" VerticalAlignment="Center"  InputGestureText="F3"/>
+                <MenuItem Header="Найти ранее" Name="mmEditFindBack" VerticalAlignment="Center"  InputGestureText="SIFT+F3"/>
+                <MenuItem Header="Заменить..." Name="mmEditReplace" VerticalAlignment="Center"  InputGestureText="CTRL+H"/>
+                <MenuItem Header="Перейти..." Name="mmEditGoTo" Click="mmEditGoTo_Click"  InputGestureText="CTRL+G"/>
                 <Separator/>
-                <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center" Click="mmEditSelectAll_Click"/>
-                <MenuItem Header="Время и дата" Name="mmEditTimeAndData" VerticalAlignment="Center" Click="mmEditTimeAndData_Click"/>
+                <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center" Click="mmEditSelectAll_Click"  InputGestureText="CTRL+A"/>
+                <MenuItem Header="Время и дата" Name="mmEditTimeAndData" VerticalAlignment="Center" Click="mmEditTimeAndData_Click"  InputGestureText="F5"/>
             </MenuItem>
             <MenuItem Header="Формат" Name="mmFormat">
                 <MenuItem Header="Перенос по словам" Name="mmFormatWrap" VerticalAlignment="Center" IsCheckable="True" Checked="mmFormatWrap_Checked" Unchecked="mmFormatWrap_Unchecked"/>

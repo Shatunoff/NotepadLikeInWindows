@@ -24,9 +24,8 @@ namespace Notepad
     //TODO:Поиск по документу (Найти, Найти далее, Найти ранее)
     //TODO:Замена внутри документа
     //TODO:Печать и параметры печати
-    //TODO:Чтение аргументов командной строки для запуска текстовых файлов через мой блокнот
     //TODO:Масштаб текста (если возможно)
-    //TODO:Прописать горячие клавиши для элементов меню, установить иконку приложения
+    //TODO:Прописать горячие клавиши для элементов меню
 
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -34,14 +33,25 @@ namespace Notepad
     public partial class MainWindow : Window
     {
         public Options options = new Options(); // Класс для работы с настройками
-        public TextEditor textEditor = new TextEditor(); // Класс для работы с текстом
+        public TextEditor textEditor; // Класс для работы с текстом
 
         public MainWindow()
         {
             InitializeComponent();
+            textEditor = new TextEditor(); // Создание нового документа
             SetBindingOptions();
             SetBindingTextEditor();
             tbNotepad.Focus();
+        }
+
+        public MainWindow(string fileName)
+        {
+            InitializeComponent();
+            textEditor = new TextEditor(fileName); // Загрузка выбранного документа
+            SetBindingOptions();
+            SetBindingTextEditor();
+            tbNotepad.Focus();
+            textEditor.ContentChanged = false;
         }
 
         // Связывание сохраненных настроек с настройками приложения
@@ -374,6 +384,7 @@ namespace Notepad
         private void mmHelpAboutProgram_Click(object sender, RoutedEventArgs e)
         {
             AboutWindow about = new AboutWindow();
+            about.Owner = this;
             about.ShowDialog();
         }
     }

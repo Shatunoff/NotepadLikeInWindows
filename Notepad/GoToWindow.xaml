@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
-        Title="Переход на строку" Height="120" Width="220" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
+        Title="Переход на строку" Height="120" Width="220" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
     <StackPanel>
         <TextBlock Text="Номер строки:" Margin="10,10,10,0" FontFamily="Microsoft Sans Serif" FontSize="11"/>
         <TextBox Name="tbStringNumber" Margin="10,5,10,0" FontFamily="Microsoft Sans Serif" FontSize="11" Height="20" TabIndex="0" PreviewTextInput="tbStringNumber_PreviewTextInput"/>

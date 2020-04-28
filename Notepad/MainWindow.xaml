@@ -58,7 +58,7 @@
                 <MenuItem Header="Строка состояния" Name="mmViewStatusStrip" VerticalAlignment="Center" IsCheckable="True"/>
             </MenuItem>
             <MenuItem Header="Справка" Name="mmHelp">
-                <MenuItem Header="О программе" Name="mmHelpAboutProgram" VerticalAlignment="Center"/>
+                <MenuItem Header="О программе" Name="mmHelpAboutProgram" VerticalAlignment="Center" Click="mmHelpAboutProgram_Click"/>
             </MenuItem>
         </Menu>
         <TextBox x:Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="tbNotepad_TextChanged" SelectionChanged="tbNotepad_SelectionChanged"/>

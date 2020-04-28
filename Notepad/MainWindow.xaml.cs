@@ -26,7 +26,6 @@ namespace Notepad
     //TODO:Печать и параметры печати
     //TODO:Чтение аргументов командной строки для запуска текстовых файлов через мой блокнот
     //TODO:Масштаб текста (если возможно)
-    //TODO:Окно "О программе"
     //TODO:Прописать горячие клавиши для элементов меню, установить иконку приложения
 
     /// <summary>
@@ -370,6 +369,12 @@ namespace Notepad
             int lineIndex = tbNotepad.GetLineIndexFromCharacterIndex(tbNotepad.SelectionStart);
             int colIndex = tbNotepad.SelectionStart - tbNotepad.GetCharacterIndexFromLineIndex(lineIndex);
             sbiCursorPosition.Content = $"Стр {lineIndex + 1}, стлб {colIndex + 1}";
+        }
+
+        private void mmHelpAboutProgram_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow about = new AboutWindow();
+            about.ShowDialog();
         }
     }
 }

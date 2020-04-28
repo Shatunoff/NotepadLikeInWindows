@@ -61,10 +61,10 @@
                 <MenuItem Header="О программе" Name="mmHelpAboutProgram" VerticalAlignment="Center"/>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="tbNotepad_TextChanged"/>
+        <TextBox x:Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="tbNotepad_TextChanged" SelectionChanged="tbNotepad_SelectionChanged"/>
         <StatusBar Name="statusStrip" Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="#FFD6D3D3">
-            <StatusBarItem Name="sbi" Content="Hello! My name is sbi."/>
-            <StatusBarItem Name="sbiTextLinesCountLabel" Content="Строк:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
+            <StatusBarItem Name="sbiCursorPosition" Content="Строка 1, столбец 1" BorderThickness="0,0,1,0" BorderBrush="#FFD6D3D3"/>
+            <StatusBarItem Name="sbiTextLinesCountLabel" Content="Строк всего:"/>
             <StatusBarItem Name="sbiTextLinesCount"/>
             <StatusBarItem Content="Символов всего:"/>
             <StatusBarItem Name="sbiTextLenGet"/>

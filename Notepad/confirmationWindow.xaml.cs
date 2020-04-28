@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace Notepad
 {
@@ -47,6 +48,11 @@ namespace Notepad
         {
             ConfirmationResult = confirmationResult.CANCEL;
             DialogResult = null;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            
         }
     }
 }

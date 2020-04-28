@@ -21,14 +21,13 @@ using System.Windows.Shapes;
 
 namespace Notepad
 {
-    //TODO:Печать и параметры печати
     //TODO:Поиск по документу (Найти, Найти далее, Найти ранее)
     //TODO:Замена внутри документа
+    //TODO:Печать и параметры печати
+    //TODO:Чтение аргументов командной строки для запуска текстовых файлов через мой блокнот
     //TODO:Масштаб текста (если возможно)
     //TODO:Окно "О программе"
-    //TODO:Отображение координат курсора в строке состояния (строка, столбец)
-    //TODO:Индикатор изменения текста для вывода подтверждения о закрытии или создании нового документов до сохранения старого.
-    //TODO:Чтение аргументов командной строки для запуска текстовых файлов через мой блокнот
+    //TODO:Прописать горячие клавиши для элементов меню, установить иконку приложения
 
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -43,6 +42,7 @@ namespace Notepad
             InitializeComponent();
             SetBindingOptions();
             SetBindingTextEditor();
+            tbNotepad.Focus();
         }
 
         // Связывание сохраненных настроек с настройками приложения
@@ -296,11 +296,15 @@ namespace Notepad
         private void mmFormatWrap_Checked(object sender, RoutedEventArgs e)
         {
             mmEditGoTo.IsEnabled = false;
+            sbiTextLinesCountLabel.Visibility = Visibility.Collapsed;
+            sbiTextLinesCount.Visibility = Visibility.Collapsed;
         }
 
         private void mmFormatWrap_Unchecked(object sender, RoutedEventArgs e)
         {
             mmEditGoTo.IsEnabled = true;
+            sbiTextLinesCountLabel.Visibility = Visibility.Visible;
+            sbiTextLinesCount.Visibility = Visibility.Visible;
         }
 
         private void mmFormatFont_Click(object sender, RoutedEventArgs e)
@@ -359,6 +363,13 @@ namespace Notepad
                 if (confirm.ConfirmationResult == confirmationResult.CANCEL)
                     e.Cancel = true;
             }
+        }
+
+        private void tbNotepad_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            int lineIndex = tbNotepad.GetLineIndexFromCharacterIndex(tbNotepad.SelectionStart);
+            int colIndex = tbNotepad.SelectionStart - tbNotepad.GetCharacterIndexFromLineIndex(lineIndex);
+            sbiCursorPosition.Content = $"Стр {lineIndex + 1}, стлб {colIndex + 1}";
         }
     }
 }

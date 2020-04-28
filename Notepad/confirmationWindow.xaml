@@ -18,9 +18,9 @@
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnSave" Content="Сохранить" Grid.Column="0" Margin="40,10,5,10" FontFamily="Microsoft Sans Serif" FontSize="11" Click="btnSave_Click" IsDefault="True"/>
-            <Button Name="btnNotSave" Content="Не сохранять" Grid.Column="1" Margin="5,10" FontFamily="Microsoft Sans Serif" FontSize="11" Click="btnNotSave_Click"/>
-            <Button Name="btnCancel" Content="Отменить" Grid.Column="2" Margin="5,10" FontFamily="Microsoft Sans Serif" FontSize="11" Click="btnCancel_Click" IsCancel="True"/>
+            <Button Name="btnSave" Content="Сохранить" Grid.Column="0" Margin="35,8,5,8" FontFamily="Microsoft Sans Serif" FontSize="12" Click="btnSave_Click" IsDefault="True"/>
+            <Button Name="btnNotSave" Content="Не сохранять" Grid.Column="1" Margin="0,8,0,8" FontFamily="Microsoft Sans Serif" FontSize="12" Click="btnNotSave_Click"/>
+            <Button Name="btnCancel" Content="Отменить" Grid.Column="2" Margin="5,8" FontFamily="Microsoft Sans Serif" FontSize="12" Click="btnCancel_Click" IsCancel="True"/>
         </Grid>
     </Grid>
 </Window>

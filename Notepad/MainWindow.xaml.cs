@@ -487,16 +487,22 @@ namespace Notepad
 
         private void ScalePlus()
         {
-            ScaleXY += 0.1;
-            tbNotepad.LayoutTransform = new ScaleTransform(ScaleXY, ScaleXY);
-            sbiTextScale.Content = TextBoxScale;
+            if (ScaleXY < 4.9)
+            {
+                ScaleXY += 0.1;
+                tbNotepad.LayoutTransform = new ScaleTransform(ScaleXY, ScaleXY);
+                sbiTextScale.Content = TextBoxScale;
+            }
         }
 
         private void ScaleMinus()
         {
-            ScaleXY -= 0.1;
-            tbNotepad.LayoutTransform = new ScaleTransform(ScaleXY, ScaleXY);
-            sbiTextScale.Content = TextBoxScale;
+            if (ScaleXY > 0.2)
+            {
+                ScaleXY -= 0.1;
+                tbNotepad.LayoutTransform = new ScaleTransform(ScaleXY, ScaleXY);
+                sbiTextScale.Content = TextBoxScale;
+            }
         }
 
         private void tbNotepad_MouseWheel(object sender, MouseWheelEventArgs e)

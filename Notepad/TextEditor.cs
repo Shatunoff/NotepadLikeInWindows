@@ -12,6 +12,9 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Printing;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace Notepad
 {
@@ -184,7 +187,7 @@ namespace Notepad
         /// Текущее положение курсора в тексте
         /// </summary>
         public int ContentSelectionStart { get; set; }
-        public int ContentSearchSelectionStart { get; set; }
+        //public int ContentSearchSelectionStart { get; set; }
         /// <summary>
         /// Результаты поиска методом FindText.
         /// </summary>
@@ -201,7 +204,20 @@ namespace Notepad
         /// Флаг показывает, было ли включено зацикливание во время последнего поиска
         /// </summary>
         public bool SearchInCycle { get; set; }
-        public bool SearchNext { get; set; }
+        /// <summary>
+        /// Индекс текущего результата поиска
+        /// </summary>
+        private int currentPosition;
+        /// <summary>
+        /// Позиция текущего результата поиска
+        /// </summary>
+        public int CurrentSearchResultPosition
+        {
+            get
+            {
+                return SearchResults[currentPosition].Index;
+            }
+        }
         #endregion
 
         public TextEditor()
@@ -275,16 +291,6 @@ namespace Notepad
             {
                 sw?.Close();
                 fs?.Close();
-            }
-        }
-
-        private int currentPosition;
-        
-        public int CurrentSearchResultPosition
-        { 
-            get
-            {
-                return SearchResults[currentPosition].Index;
             }
         }
 
@@ -370,6 +376,7 @@ namespace Notepad
             }
         }
         #endregion
+
     }
 
     public class SearchQueryNotFoundException : Exception

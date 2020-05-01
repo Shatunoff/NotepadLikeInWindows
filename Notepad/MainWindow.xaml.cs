@@ -22,11 +22,7 @@ using System.Windows.Shapes;
 
 namespace Notepad
 {
-    //TODO:Печать и параметры печати
-    //TODO:Масштаб текста (если возможно)
     //TODO:Прописать горячие клавиши для элементов меню
-    //TODO:При стирании выделенного текста не обновляется количество символов внутри выделенного фрагмента
-    //TODO:При поиске далее некорректно определяется текущая позиция в результатах. Возможно также или хуже при "найти ранее".
 
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -34,7 +30,6 @@ namespace Notepad
     public partial class MainWindow : Window
     {
         public bool searchWindowShowed { get; set; } // Индикатор открытия окна поиска и замены
-
         public Options options { get; private set; } = new Options(); // Класс для работы с настройками
         public TextEditor textEditor { get; set; } // Класс для работы с текстом
         
@@ -394,17 +389,13 @@ namespace Notepad
             textEditor.ContentSelectionStart = tbNotepad.SelectionStart;
             if (textEditor.SearchResults != null)
             {
-                textEditor.ContentSearchSelectionStart = tbNotepad.SelectionStart + textEditor.SearchQuery.Length;
                 textEditor.ActualFindNext(false);
             }
             int lineIndex = tbNotepad.GetLineIndexFromCharacterIndex(tbNotepad.SelectionStart);
             int colIndex = tbNotepad.SelectionStart - tbNotepad.GetCharacterIndexFromLineIndex(lineIndex);
             sbiCursorPosition.Content = $"Стр {lineIndex + 1}, стлб {colIndex + 1}";
-            if (tbNotepad.SelectionLength > 0)
-            {
-                sbiTextSelectLenGet.Content = $"({tbNotepad.SelectionLength})";
-                sbiTextSelectLenWithoutSpacesGet.Content = $"({(((tbNotepad.SelectedText.Replace('\n', ' ')).Replace('\r', ' ')).Replace(" ", "")).Length})";
-            }
+            sbiTextSelectLenGet.Content = $"({tbNotepad.SelectionLength})";
+            sbiTextSelectLenWithoutSpacesGet.Content = $"({(((tbNotepad.SelectedText.Replace('\n', ' ')).Replace('\r', ' ')).Replace(" ", "")).Length})";
         }
 
         private void mmHelpAboutProgram_Click(object sender, RoutedEventArgs e)
@@ -454,6 +445,67 @@ namespace Notepad
         private void mmEditFindBack_Click(object sender, RoutedEventArgs e)
         {
             SelectFindResult(textEditor.SearchInCycle, false);
+        }
+
+        private double scaleXY = 1;
+        private double ScaleXY 
+        { 
+            get
+            {
+                return scaleXY;
+            }
+            set
+            {
+                scaleXY = value;
+            }
+        }
+
+        public string TextBoxScale
+        {
+            get
+            {
+                return (ScaleXY * 100.0).ToString("N0") + "%";
+            }
+        }
+
+        private void mmViewScalePlus_Click(object sender, RoutedEventArgs e)
+        {
+            ScalePlus();
+        }
+
+        private void mmViewScaleMinus_Click(object sender, RoutedEventArgs e)
+        {
+            ScaleMinus();
+        }
+
+        private void mmViewScaleDefault_Click(object sender, RoutedEventArgs e)
+        {
+            scaleXY = 1;
+            tbNotepad.LayoutTransform = new ScaleTransform(ScaleXY, ScaleXY);
+            sbiTextScale.Content = TextBoxScale;
+        }
+
+        private void ScalePlus()
+        {
+            ScaleXY += 0.1;
+            tbNotepad.LayoutTransform = new ScaleTransform(ScaleXY, ScaleXY);
+            sbiTextScale.Content = TextBoxScale;
+        }
+
+        private void ScaleMinus()
+        {
+            ScaleXY -= 0.1;
+            tbNotepad.LayoutTransform = new ScaleTransform(ScaleXY, ScaleXY);
+            sbiTextScale.Content = TextBoxScale;
+        }
+
+        private void tbNotepad_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if (e.Delta > 0) ScalePlus();
+                if (e.Delta < 0) ScaleMinus();
+            }
         }
     }
 }

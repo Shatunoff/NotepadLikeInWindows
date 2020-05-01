@@ -20,9 +20,6 @@
                 <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center" Click="mmFileSave_Click"  InputGestureText="CTRL+S"/>
                 <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center" Click="mmFileSaveAs_Click"  InputGestureText="CTRL+SHIFT+S"/>
                 <Separator/>
-                <MenuItem Header="Параметры страницы..." Name="mmFilePropertyPage" VerticalAlignment="Center"/>
-                <MenuItem Header="Печать..." Name="mmFilePrint" VerticalAlignment="Center"  InputGestureText="CTRL+P"/>
-                <Separator/>
                 <MenuItem Header="Выход" Name="mmFileExit" VerticalAlignment="Center" Click="mmFileExit_Click"/>
             </MenuItem>
             <MenuItem Header="Правка" Name="mmEdit">
@@ -50,9 +47,9 @@
             </MenuItem>
             <MenuItem Header="Вид" Name="mmView">
                 <MenuItem Header="Масштаб" Name="mmViewScale">
-                    <MenuItem Header="Увеличить" Name="mmViewScalePlus" VerticalAlignment="Center"/>
-                    <MenuItem Header="Уменьшить" Name="mmViewScaleMinus" VerticalAlignment="Center"/>
-                    <MenuItem Header="Восстановить масштаб по умолчанию" Name="mmViewScaleDefault" VerticalAlignment="Center"/>
+                    <MenuItem Header="Увеличить" Name="mmViewScalePlus" VerticalAlignment="Center" Click="mmViewScalePlus_Click"/>
+                    <MenuItem Header="Уменьшить" Name="mmViewScaleMinus" VerticalAlignment="Center" Click="mmViewScaleMinus_Click"/>
+                    <MenuItem Header="Восстановить масштаб по умолчанию" Name="mmViewScaleDefault" VerticalAlignment="Center" Click="mmViewScaleDefault_Click"/>
                 </MenuItem>
                 <MenuItem Header="Строка состояния" Name="mmViewStatusStrip" VerticalAlignment="Center" IsCheckable="True"/>
             </MenuItem>
@@ -60,7 +57,7 @@
                 <MenuItem Header="О программе" Name="mmHelpAboutProgram" VerticalAlignment="Center" Click="mmHelpAboutProgram_Click"/>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="tbNotepad_TextChanged" SelectionChanged="tbNotepad_SelectionChanged"/>
+        <TextBox x:Name="tbNotepad" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" BorderBrush="#FFF1EDED" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="tbNotepad_TextChanged" SelectionChanged="tbNotepad_SelectionChanged" MouseWheel="tbNotepad_MouseWheel"/>
         <StatusBar Name="statusStrip" Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="#FFD6D3D3">
             <StatusBarItem Name="sbiCursorPosition" Content="Строка 1, столбец 1" BorderThickness="0,0,1,0" BorderBrush="#FFD6D3D3"/>
             <StatusBarItem Name="sbiTextLinesCountLabel" Content="Строк всего:"/>
@@ -71,6 +68,8 @@
             <StatusBarItem Content="Без пробелов:"/>
             <StatusBarItem Name="sbiTextLenWithoutSpacesGet"/>
             <StatusBarItem Name="sbiTextSelectLenWithoutSpacesGet" Content="(0)"/>
+            <StatusBarItem Content="Масштаб:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
+            <StatusBarItem Name="sbiTextScale" Content="100%"/>
             <StatusBarItem Content="Кодировка:" BorderThickness="1,0,0,0" BorderBrush="#FFD6D3D3"/>
             <StatusBarItem Name="sbiEncodingName"/>
         </StatusBar>

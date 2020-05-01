@@ -16,7 +16,7 @@
             <MenuItem Header="Файл" Name="mmFile">
                 <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center" Click="mmFileCreate_Click" InputGestureText="CTRL+N"/>
                 <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center" Click="mmFileNewWindow_Click" InputGestureText="CTRL+SHIFT+N"/>
-                <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center" Click="mmFileOpen_Click" InputGestureText="CTRL+O"/>
+                <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center" Click="mmFileOpen_Click" InputGestureText="CTRL+O" Background="Transparent"/>
                 <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center" Click="mmFileSave_Click"  InputGestureText="CTRL+S"/>
                 <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center" Click="mmFileSaveAs_Click"  InputGestureText="CTRL+SHIFT+S"/>
                 <Separator/>
@@ -34,10 +34,9 @@
                 <MenuItem Header="Вставить" Name="mmEditPaste" VerticalAlignment="Center" Click="mmEditPaste_Click"  InputGestureText="CTRL+V"/>
                 <MenuItem Header="Удалить" Name="mmEditRemove" VerticalAlignment="Center" Click="mmEditRemove_Click"  InputGestureText="DEL"/>
                 <Separator/>
-                <MenuItem Header="Найти..." Name="mmEditFind" VerticalAlignment="Center"  InputGestureText="CTRL+F"/>
-                <MenuItem Header="Найти далее" Name="mmEditFindNext" VerticalAlignment="Center"  InputGestureText="F3"/>
-                <MenuItem Header="Найти ранее" Name="mmEditFindBack" VerticalAlignment="Center"  InputGestureText="SIFT+F3"/>
-                <MenuItem Header="Заменить..." Name="mmEditReplace" VerticalAlignment="Center"  InputGestureText="CTRL+H"/>
+                <MenuItem Header="Найти и заменить..." Name="mmEditFind" VerticalAlignment="Center"  InputGestureText="CTRL+F" Click="mmEditFind_Click" IsEnabled="False"/>
+                <MenuItem Header="Найти далее" Name="mmEditFindNext" VerticalAlignment="Center"  InputGestureText="F3" IsEnabled="False" Click="mmEditFindNext_Click"/>
+                <MenuItem Header="Найти ранее" Name="mmEditFindBack" VerticalAlignment="Center"  InputGestureText="SHIFT+F3" IsEnabled="False" Click="mmEditFindBack_Click"/>
                 <MenuItem Header="Перейти..." Name="mmEditGoTo" Click="mmEditGoTo_Click"  InputGestureText="CTRL+G"/>
                 <Separator/>
                 <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center" Click="mmEditSelectAll_Click"  InputGestureText="CTRL+A"/>

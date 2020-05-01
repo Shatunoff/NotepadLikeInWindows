@@ -10,19 +10,23 @@ using System.Windows;
 using System.Reflection;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Notepad
 {
     public class TextEditor : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private bool _contentChanged;
         private string _fileName;
         private string _filePath;
         private string _content;
+        private bool _contentChanged;
         private Encoding _contentEncoding;
 
+        /// <summary>
+        /// Индикатор изменения текста. Содержит False, если текст не подвергался изменениям с момента последнего сохранения и наоборот.
+        /// </summary>
         public bool ContentChanged 
         { 
             get
@@ -36,6 +40,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Наименование открытого/сохраненного текстового файла.
+        /// </summary>
         public string FileName
         {
             get
@@ -49,6 +56,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Title для главного окна, содержащее наименование файла и название программы. Также содержит индикатор изменения текста.
+        /// </summary>
         public string WindowTitle
         {
             get
@@ -60,6 +70,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Путь к файлу, хранящему текст. Путь содержит null, если текст не был загружен или сохранен.
+        /// </summary>
         public string FilePath 
         { 
             get
@@ -74,6 +87,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Количество строк в тексте.
+        /// </summary>
         public int ContentLinesCount
         {
             get
@@ -82,6 +98,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Текст.
+        /// </summary>
         public string Content 
         { 
             get
@@ -98,6 +117,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Название кодировки текста (техническое).
+        /// </summary>
         public string ContentEncodingHeaderName
         {
             get
@@ -106,6 +128,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Название кодировки текста (понятное пользователю).
+        /// </summary>
         public string ContentEncodingName
         {
             get
@@ -114,6 +139,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Количество символов в тексте.
+        /// </summary>
         public int ContentLength
         {
             get
@@ -122,6 +150,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Количество символов в тексте без учета пробелов.
+        /// </summary>
         public int ContentLengthWithoutSpaces
         {
             get
@@ -130,6 +161,9 @@ namespace Notepad
             }
         }
 
+        /// <summary>
+        /// Кодировка текста
+        /// </summary>
         public Encoding ContentEncoding
         {
             get
@@ -144,6 +178,29 @@ namespace Notepad
                 NotifyPropertyChanged("ContentEncodingHeaderName");
             }
         }
+
+        #region Свойства для поиска и замены текста
+        /// <summary>
+        /// Текущее положение курсора в тексте
+        /// </summary>
+        public int ContentSelectionStart { get; set; }
+        /// <summary>
+        /// Результаты поиска методом FindText.
+        /// </summary>
+        public MatchCollection SearchResults { get; private set; }
+        /// <summary>
+        /// Последний поисковый запрос.
+        /// </summary>
+        public string SearchQuery { get; private set; }
+        /// <summary>
+        /// Флаг показывает, учитывался ли регистр символов во время последнего запроса.
+        /// </summary>
+        public bool SearchSensetive { get; private set; }
+        /// <summary>
+        /// Флаг показывает, было ли включено зацикливание во время последнего поиска
+        /// </summary>
+        public bool SearchInCycle { get; set; }
+        #endregion
 
         public TextEditor()
         {
@@ -186,7 +243,7 @@ namespace Notepad
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.Message);
+                System.Windows.MessageBox.Show(e.Message);
             }
             finally
             {
@@ -210,13 +267,93 @@ namespace Notepad
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.Message);
+                System.Windows.MessageBox.Show(e.Message);
             }
             finally
             {
                 sw?.Close();
                 fs?.Close();
             }
+        }
+
+        private int currentPosition;
+        
+        public int CurrentSearchResultPosition
+        { 
+            get
+            {
+                return SearchResults[currentPosition].Index;
+            }
+        }
+
+        public void FindResultMoveNext(bool findInCycle)
+        {
+            currentPosition++;
+            if (findInCycle)
+            {
+                if (currentPosition >= SearchResults.Count)
+                    currentPosition = 0;
+            }
+        }
+
+        public void FindResultMoveBack(bool findInCycle)
+        {
+            currentPosition--;
+            if (findInCycle)
+            {
+                if (currentPosition < 0)
+                    currentPosition = SearchResults.Count - 1;
+            }
+        }
+
+        /// <summary>
+        /// Производит поиск указанной строки в тексте. Результат присваивается свойству SearchResults класса TextEditor.
+        /// </summary>
+        /// <param name="searchQuery">Поисковый запрос</param>
+        /// <param name="sensetive">Учет регистра букв при поиске</param>
+        public void SearchText(string searchQuery, bool sensetive)
+        {
+            SearchQuery = searchQuery;
+            SearchSensetive = sensetive;
+            
+            if (sensetive)
+            {
+                Regex regex = new Regex(SearchQuery);
+                SearchResults = regex.Matches(Content);
+            }
+            else
+            {
+                Regex regex = new Regex(SearchQuery, RegexOptions.IgnoreCase);
+                SearchResults = regex.Matches(Content);
+            }
+
+            ActualFindNext();
+        }
+
+        public void ActualFindNext()
+        {
+            // Первым результатом поиска будет результат после текущей позиции курсора
+            if (SearchResults != null)
+            {
+                if (SearchResults.Count > 0)
+                {
+                    for (int i = 0; i < SearchResults.Count; i++)
+                    {
+                        if (SearchResults[i].Index <= ContentSelectionStart)
+                        {
+                            currentPosition = i;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public class SearchQueryNotFoundException : Exception
+    {
+        public SearchQueryNotFoundException(string message) : base(message)
+        {
+
         }
     }
 }

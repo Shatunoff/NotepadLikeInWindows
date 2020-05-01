@@ -1,0 +1,36 @@
+﻿<Window x:Class="Notepad.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad"
+        mc:Ignorable="d"
+        Title="Поиск и замена" Height="170" Width="380" WindowStyle="ToolWindow" ShowInTaskbar="False" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterOwner" Closing="Window_Closing" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="1.7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Найти:" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBox Name="tbSearchQuery" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0"/>
+        <TextBlock Text="Заменить на:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBox Name="tbReplaceQuery" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0"/>
+        <CheckBox Name="checkRegister" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Content="Учитывать регистр символов" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0"/>
+        <CheckBox Name="checkCycle" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Content="Зациклить поиск" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0" IsChecked="True"/>
+        <Button Name="btnFindNext" Width="90" Height="20" Content="Найти далее" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsDefault="True" Click="btnFindNext_Click"/>
+        <Button Name="btnFindBack" Width="90" Height="20" Content="Найти ранее" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnFindBack_Click"/>
+        <Button Name="btnReplace" Width="90" Height="20" Content="Заменить" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnReplace_Click"/>
+        <Button Name="btnRaplceAll" Width="90" Height="20" Content="Заменить все" Grid.Row="3" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnRaplceAll_Click"/>
+        <Button Name="btnCancel" Width="90" Height="20" Content="Отмена" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsCancel="True"/>
+    </Grid>
+</Window>

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,15 +27,19 @@ namespace Notepad
     //TODO:Печать и параметры печати
     //TODO:Масштаб текста (если возможно)
     //TODO:Прописать горячие клавиши для элементов меню
+    //TODO:При стирании выделенного текста не обновляется количество символов внутри выделенного фрагмента
+    //TODO:При поиске далее некорректно определяется текущая позиция в результатах. Возможно также или хуже при "найти ранее".
 
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Options options = new Options(); // Класс для работы с настройками
-        public TextEditor textEditor; // Класс для работы с текстом
+        public bool searchWindowShowed { get; set; } // Индикатор открытия окна поиска и замены
 
+        public Options options { get; private set; } = new Options(); // Класс для работы с настройками
+        public TextEditor textEditor { get; set; } // Класс для работы с текстом
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -337,7 +342,19 @@ namespace Notepad
 
         private void tbNotepad_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // Сообщаем об изменении текста в класс textEditor
             textEditor.ContentChanged = true;
+            // Возможность поиска и замены доступна только если есть, в чем искать
+            if (tbNotepad.Text.Length > 0)
+                mmEditFind.IsEnabled = true;  
+            else
+                mmEditFind.IsEnabled = false;
+            // Обновление результатов поиска при изменении текста
+            if (textEditor.SearchResults != null)
+            {
+                if (textEditor.SearchResults.Count > 0)
+                    textEditor.SearchText(textEditor.SearchQuery, textEditor.SearchSensetive);
+            }
         }
 
         private void mmEditGoTo_Click(object sender, RoutedEventArgs e)
@@ -376,6 +393,8 @@ namespace Notepad
 
         private void tbNotepad_SelectionChanged(object sender, RoutedEventArgs e)
         {
+            textEditor.ContentSelectionStart = tbNotepad.SelectionStart;
+            textEditor.ActualFindNext();
             int lineIndex = tbNotepad.GetLineIndexFromCharacterIndex(tbNotepad.SelectionStart);
             int colIndex = tbNotepad.SelectionStart - tbNotepad.GetCharacterIndexFromLineIndex(lineIndex);
             sbiCursorPosition.Content = $"Стр {lineIndex + 1}, стлб {colIndex + 1}";
@@ -391,6 +410,48 @@ namespace Notepad
             AboutWindow about = new AboutWindow();
             about.Owner = this;
             about.ShowDialog();
+        }
+
+        private void mmEditFind_Click(object sender, RoutedEventArgs e)
+        {
+            if (tbNotepad.Text.Length > 0 && !searchWindowShowed)
+            {
+                searchWindowShowed = true;
+                SearchWindow search = textEditor.SearchQuery == null ? new SearchWindow() : new SearchWindow(textEditor.SearchQuery);
+                search.Owner = this;
+                search.Show();
+            }
+        }
+
+        // Выделение результата поиска в textbox'e
+        public void SelectFindResult(bool findInCycle, bool directionNext = true)
+        {
+            textEditor.SearchInCycle = findInCycle;
+            if (directionNext) textEditor.FindResultMoveNext(findInCycle);
+            else textEditor.FindResultMoveBack(findInCycle);
+            try
+            {
+                tbNotepad.Focus();
+                tbNotepad.Select(textEditor.CurrentSearchResultPosition, textEditor.SearchQuery.Length);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show($"Не удается найти \"{textEditor.SearchQuery}\"", Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title);
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show($"Не удается найти \"{textEditor.SearchQuery}\"", Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title);
+            }
+        }
+
+        private void mmEditFindNext_Click(object sender, RoutedEventArgs e)
+        {
+            SelectFindResult(textEditor.SearchInCycle);
+        }
+
+        private void mmEditFindBack_Click(object sender, RoutedEventArgs e)
+        {
+            SelectFindResult(textEditor.SearchInCycle, false);
         }
     }
 }

@@ -184,6 +184,7 @@ namespace Notepad
         /// Текущее положение курсора в тексте
         /// </summary>
         public int ContentSelectionStart { get; set; }
+        public int ContentSearchSelectionStart { get; set; }
         /// <summary>
         /// Результаты поиска методом FindText.
         /// </summary>
@@ -200,6 +201,7 @@ namespace Notepad
         /// Флаг показывает, было ли включено зацикливание во время последнего поиска
         /// </summary>
         public bool SearchInCycle { get; set; }
+        public bool SearchNext { get; set; }
         #endregion
 
         public TextEditor()
@@ -330,23 +332,44 @@ namespace Notepad
             ActualFindNext();
         }
 
-        public void ActualFindNext()
+        #region Мне стыдно за этот код :-(
+        // Актуализация текущей позиции поиска в зависимости от положения курсора в TextBox
+        public void ActualFindNext(bool state = true)
         {
-            // Первым результатом поиска будет результат после текущей позиции курсора
-            if (SearchResults != null)
+            if (state)
             {
-                if (SearchResults.Count > 0)
+                if (SearchResults != null)
                 {
-                    for (int i = 0; i < SearchResults.Count; i++)
+                    if (SearchResults.Count > 0)
                     {
-                        if (SearchResults[i].Index <= ContentSelectionStart)
+                        for (int i = 0; i < SearchResults.Count; i++)
                         {
-                            currentPosition = i;
+                            if (SearchResults[i].Index <= ContentSelectionStart - 1)
+                            {
+                                currentPosition = i;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (SearchResults != null)
+                {
+                    if (SearchResults.Count > 0)
+                    {
+                        for (int i = 0; i < SearchResults.Count; i++)
+                        {
+                            if (SearchResults[i].Index <= ContentSelectionStart + SearchQuery.Length - 1)
+                            {
+                                currentPosition = i;
+                            }
                         }
                     }
                 }
             }
         }
+        #endregion
     }
 
     public class SearchQueryNotFoundException : Exception

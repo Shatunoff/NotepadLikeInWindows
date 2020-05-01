@@ -22,8 +22,6 @@ using System.Windows.Shapes;
 
 namespace Notepad
 {
-    //TODO:Поиск по документу (Найти, Найти далее, Найти ранее)
-    //TODO:Замена внутри документа
     //TODO:Печать и параметры печати
     //TODO:Масштаб текста (если возможно)
     //TODO:Прописать горячие клавиши для элементов меню
@@ -394,7 +392,11 @@ namespace Notepad
         private void tbNotepad_SelectionChanged(object sender, RoutedEventArgs e)
         {
             textEditor.ContentSelectionStart = tbNotepad.SelectionStart;
-            textEditor.ActualFindNext();
+            if (textEditor.SearchResults != null)
+            {
+                textEditor.ContentSearchSelectionStart = tbNotepad.SelectionStart + textEditor.SearchQuery.Length;
+                textEditor.ActualFindNext(false);
+            }
             int lineIndex = tbNotepad.GetLineIndexFromCharacterIndex(tbNotepad.SelectionStart);
             int colIndex = tbNotepad.SelectionStart - tbNotepad.GetCharacterIndexFromLineIndex(lineIndex);
             sbiCursorPosition.Content = $"Стр {lineIndex + 1}, стлб {colIndex + 1}";

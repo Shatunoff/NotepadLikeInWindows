@@ -50,12 +50,6 @@ namespace Notepad
             btnFindClick();
         }
 
-        private void btnFindBack_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshSearchResults();
-            btnFindClick(false);
-        }
-
         private void RefreshSearchResults()
         {
             if (tbSearchQuery.Text.Length > 0)

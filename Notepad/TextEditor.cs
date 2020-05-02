@@ -312,7 +312,7 @@ namespace Notepad
                 if (currentPosition < 0)
                     currentPosition = SearchResults.Count - 1;
             }
-        }
+        }        
 
         /// <summary>
         /// Производит поиск указанной строки в тексте. Результат присваивается свойству SearchResults класса TextEditor.

@@ -6,6 +6,19 @@
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
         Title="Блокнот как в Windows" Height="480" Width="640" MinWidth="360" MinHeight="240" ResizeMode="CanResizeWithGrip" Closing="Window_Closing" Icon="Notepad_22522.png">
+    <Window.InputBindings></Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="mmFileCreate_Click" />
+        <CommandBinding Command="Open" Executed="mmFileOpen_Click" />
+        <CommandBinding Command="Save" Executed="mmFileSave_Click" />
+        <CommandBinding Command="Undo" Executed="mmEditUndo_Click" />
+        <CommandBinding Command="Cut" Executed="mmEditCut_Click" />
+        <CommandBinding Command="Copy" Executed="mmEditCopy_Click" />
+        <CommandBinding Command="Paste" Executed="mmEditPaste_Click" />
+        <CommandBinding Command="Delete" Executed="mmEditRemove_Click" />
+        <CommandBinding Command="Find" Executed="mmEditFind_Click" />
+        <CommandBinding Command="SelectAll" Executed="mmEditSelectAll_Click" />
+    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -14,42 +27,41 @@
         </Grid.RowDefinitions>
         <Menu x:Name="mainMenu" VerticalAlignment="Bottom" Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="#FFD6D3D3" Background="White">
             <MenuItem Header="Файл" Name="mmFile">
-                <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center" Click="mmFileCreate_Click" InputGestureText="CTRL+N"/>
+                <MenuItem Header="Создать" Name="mmFileCreate" VerticalAlignment="Center" Click="mmFileCreate_Click" InputGestureText="CTRL+N" Command="New"/>
                 <MenuItem Header="Новое окно" Name="mmFileNewWindow" VerticalAlignment="Center" Click="mmFileNewWindow_Click" InputGestureText="CTRL+SHIFT+N"/>
-                <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center" Click="mmFileOpen_Click" InputGestureText="CTRL+O" Background="Transparent"/>
-                <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center" Click="mmFileSave_Click"  InputGestureText="CTRL+S"/>
+                <MenuItem Header="Открыть" Name="mmFileOpen" VerticalAlignment="Center" Click="mmFileOpen_Click" InputGestureText="CTRL+O" Background="Transparent" Command="Open"/>
+                <MenuItem Header="Сохранить" Name="mmFileSave" VerticalAlignment="Center" Click="mmFileSave_Click"  InputGestureText="CTRL+S" Command="Save"/>
                 <MenuItem Header="Сохранить как..." Name="mmFileSaveAs" VerticalAlignment="Center" Click="mmFileSaveAs_Click"  InputGestureText="CTRL+SHIFT+S"/>
                 <Separator/>
                 <MenuItem Header="Выход" Name="mmFileExit" VerticalAlignment="Center" Click="mmFileExit_Click"/>
             </MenuItem>
             <MenuItem Header="Правка" Name="mmEdit">
-                <MenuItem Header="Отменить" Name="mmEditUndo" VerticalAlignment="Center" Click="mmEditUndo_Click"  InputGestureText="CTRL+Z"/>
+                <MenuItem Header="Отменить" Name="mmEditUndo" VerticalAlignment="Center" Click="mmEditUndo_Click"  InputGestureText="CTRL+Z" Command="Undo"/>
                 <MenuItem Header="Повторить" Name="mmEditRedo" VerticalAlignment="Center" Click="mmEditRedo_Click"  InputGestureText="CTRL+SHIFT+Z"/>
                 <Separator/>
-                <MenuItem Header="Вырезать" Name="mmEditCut" VerticalAlignment="Center" Click="mmEditCut_Click"  InputGestureText="CTRL+X"/>
-                <MenuItem Header="Копировать" Name="mmEditCopy" VerticalAlignment="Center" Click="mmEditCopy_Click"  InputGestureText="CTRL+C" ToolTip=""/>
-                <MenuItem Header="Вставить" Name="mmEditPaste" VerticalAlignment="Center" Click="mmEditPaste_Click"  InputGestureText="CTRL+V"/>
-                <MenuItem Header="Удалить" Name="mmEditRemove" VerticalAlignment="Center" Click="mmEditRemove_Click"  InputGestureText="DEL"/>
+                <MenuItem Header="Вырезать" Name="mmEditCut" VerticalAlignment="Center" Click="mmEditCut_Click"  InputGestureText="CTRL+X" Command="Cut"/>
+                <MenuItem Header="Копировать" Name="mmEditCopy" VerticalAlignment="Center" Click="mmEditCopy_Click"  InputGestureText="CTRL+C" Command="Copy"/>
+                <MenuItem Header="Вставить" Name="mmEditPaste" VerticalAlignment="Center" Click="mmEditPaste_Click"  InputGestureText="CTRL+V" Command="Paste"/>
+                <MenuItem Header="Удалить" Name="mmEditRemove" VerticalAlignment="Center" Click="mmEditRemove_Click"  InputGestureText="DEL" Command="Delete"/>
                 <Separator/>
-                <MenuItem Header="Найти и заменить..." Name="mmEditFind" VerticalAlignment="Center"  InputGestureText="CTRL+F" Click="mmEditFind_Click" IsEnabled="False"/>
+                <MenuItem Header="Найти и заменить..." Name="mmEditFind" VerticalAlignment="Center"  InputGestureText="CTRL+F" Click="mmEditFind_Click" IsEnabled="False" Command="Find"/>
                 <MenuItem Header="Найти далее" Name="mmEditFindNext" VerticalAlignment="Center"  InputGestureText="F3" IsEnabled="False" Click="mmEditFindNext_Click"/>
                 <MenuItem Header="Найти ранее" Name="mmEditFindBack" VerticalAlignment="Center"  InputGestureText="SHIFT+F3" IsEnabled="False" Click="mmEditFindBack_Click"/>
                 <MenuItem Header="Перейти..." Name="mmEditGoTo" Click="mmEditGoTo_Click"  InputGestureText="CTRL+G"/>
                 <Separator/>
-                <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center" Click="mmEditSelectAll_Click"  InputGestureText="CTRL+A"/>
+                <MenuItem Header="Выделить все" Name="mmEditSelectAll" VerticalAlignment="Center" Click="mmEditSelectAll_Click"  InputGestureText="CTRL+A" Command="SelectAll"/>
                 <MenuItem Header="Время и дата" Name="mmEditTimeAndData" VerticalAlignment="Center" Click="mmEditTimeAndData_Click"  InputGestureText="F5"/>
             </MenuItem>
             <MenuItem Header="Формат" Name="mmFormat">
                 <MenuItem Header="Перенос по словам" Name="mmFormatWrap" VerticalAlignment="Center" IsCheckable="True" Checked="mmFormatWrap_Checked" Unchecked="mmFormatWrap_Unchecked"/>
-                <MenuItem Header="Проверка орфографии" Name="mmFormatSpellCheck" VerticalAlignment="Center" IsCheckable="True" Checked="mmViewSpellCheck_Checked" Unchecked="mmViewSpellCheck_Unchecked">
-                </MenuItem>
+                <MenuItem Header="Проверка орфографии" Name="mmFormatSpellCheck" VerticalAlignment="Center" IsCheckable="True" Checked="mmViewSpellCheck_Checked" Unchecked="mmViewSpellCheck_Unchecked"/>
                 <MenuItem Header="Шрифт..." Name="mmFormatFont" VerticalAlignment="Center" Click="mmFormatFont_Click"/>
             </MenuItem>
             <MenuItem Header="Вид" Name="mmView">
                 <MenuItem Header="Масштаб" Name="mmViewScale">
-                    <MenuItem Header="Увеличить" Name="mmViewScalePlus" VerticalAlignment="Center" Click="mmViewScalePlus_Click"/>
-                    <MenuItem Header="Уменьшить" Name="mmViewScaleMinus" VerticalAlignment="Center" Click="mmViewScaleMinus_Click"/>
-                    <MenuItem Header="Восстановить масштаб по умолчанию" Name="mmViewScaleDefault" VerticalAlignment="Center" Click="mmViewScaleDefault_Click"/>
+                    <MenuItem Header="Увеличить" Name="mmViewScalePlus" VerticalAlignment="Center" Click="mmViewScalePlus_Click" InputGestureText="CTRL+плюс(+)"/>
+                    <MenuItem Header="Уменьшить" Name="mmViewScaleMinus" VerticalAlignment="Center" Click="mmViewScaleMinus_Click" InputGestureText="CTRL+минус(-)"/>
+                    <MenuItem Header="Восстановить масштаб по умолчанию" Name="mmViewScaleDefault" VerticalAlignment="Center" Click="mmViewScaleDefault_Click" InputGestureText="CTRL+0"/>
                 </MenuItem>
                 <MenuItem Header="Строка состояния" Name="mmViewStatusStrip" VerticalAlignment="Center" IsCheckable="True"/>
             </MenuItem>

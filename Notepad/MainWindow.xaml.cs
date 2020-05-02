@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -22,13 +23,29 @@ using System.Windows.Shapes;
 
 namespace Notepad
 {
-    //TODO:Прописать горячие клавиши для элементов меню
-
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static RoutedCommand SaveAs = new RoutedCommand();
+        public static RoutedCommand Redo = new RoutedCommand();
+        public static RoutedCommand FindNext = new RoutedCommand();
+        public static RoutedCommand FindBack = new RoutedCommand();
+        public static RoutedCommand GoTo = new RoutedCommand();
+        public static RoutedCommand TimeAndDate = new RoutedCommand();
+        public static RoutedCommand DefaultScale = new RoutedCommand();
+        public static RoutedCommand ScalePlusCmd = new RoutedCommand();
+        public static RoutedCommand ScaleMinusCmd = new RoutedCommand();
+
+        private double ScaleXY { get; set; } = 1; // Значение масштаба текста
+        public string TextBoxScale // Масштаб текста для статусбара
+        {
+            get
+            {
+                return (ScaleXY * 100.0).ToString("N0") + "%";
+            }
+        }
         public bool searchWindowShowed { get; set; } // Индикатор открытия окна поиска и замены
         public Options options { get; private set; } = new Options(); // Класс для работы с настройками
         public TextEditor textEditor { get; set; } // Класс для работы с текстом
@@ -36,20 +53,70 @@ namespace Notepad
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
             textEditor = new TextEditor(); // Создание нового документа
+            SetKeyBindings();
+            SetCommandBindings();
             SetBindingOptions();
             SetBindingTextEditor();
             tbNotepad.Focus();
+            
         }
 
         public MainWindow(string fileName)
         {
             InitializeComponent();
             textEditor = new TextEditor(fileName); // Загрузка выбранного документа
+            SetKeyBindings();
+            SetCommandBindings();
             SetBindingOptions();
             SetBindingTextEditor();
             tbNotepad.Focus();
             textEditor.ContentChanged = false;
+        }
+
+        private void SetKeyBindings()
+        {
+            InputBindingCollection inputbindcol = new InputBindingCollection()
+            {
+                new KeyBinding(SaveAs, Key.S, ModifierKeys.Control | ModifierKeys.Shift),
+                new KeyBinding(Redo, Key.Z, ModifierKeys.Control | ModifierKeys.Shift),
+                new KeyBinding(GoTo, Key.G, ModifierKeys.Control),
+                new KeyBinding(FindNext, Key.F3, ModifierKeys.None),
+                new KeyBinding(FindBack, Key.F3, ModifierKeys.Shift),
+                new KeyBinding(TimeAndDate, Key.F5, ModifierKeys.None),
+                new KeyBinding(DefaultScale, Key.D0, ModifierKeys.Control),
+                new KeyBinding(ScalePlusCmd, Key.OemPlus, ModifierKeys.Control),
+                new KeyBinding(ScaleMinusCmd, Key.OemMinus, ModifierKeys.Control)
+            };
+            this.InputBindings.AddRange(inputbindcol);
+        }
+
+        private void SetCommandBindings()
+        {
+            CommandBindingCollection cmdbindcol = new CommandBindingCollection()
+            {
+                new CommandBinding(SaveAs, mmFileSaveAs_Click),
+                new CommandBinding(Redo, mmEditRedo_Click),
+                new CommandBinding(GoTo, mmEditGoTo_Click),
+                new CommandBinding(FindNext, mmEditFindNext_Click),
+                new CommandBinding(FindBack, mmEditFindBack_Click),
+                new CommandBinding(TimeAndDate, mmEditTimeAndData_Click),
+                new CommandBinding(DefaultScale, mmViewScaleDefault_Click),
+                new CommandBinding(ScalePlusCmd, mmViewScalePlus_Click),
+                new CommandBinding(ScaleMinusCmd, mmViewScaleMinus_Click)
+            };
+            this.CommandBindings.AddRange(cmdbindcol);
+
+            mmFileSaveAs.Command = SaveAs;
+            mmEditRedo.Command = Redo;
+            mmEditGoTo.Command = GoTo;
+            mmEditFindNext.Command = FindNext;
+            mmEditFindBack.Command = FindBack;
+            mmEditTimeAndData.Command = TimeAndDate;
+            mmViewScaleDefault.Command = DefaultScale;
+            mmViewScalePlus.Command = ScalePlusCmd;
+            mmViewScaleMinus.Command = ScaleMinusCmd;
         }
 
         // Связывание сохраненных настроек с настройками приложения
@@ -447,27 +514,6 @@ namespace Notepad
             SelectFindResult(textEditor.SearchInCycle, false);
         }
 
-        private double scaleXY = 1;
-        private double ScaleXY 
-        { 
-            get
-            {
-                return scaleXY;
-            }
-            set
-            {
-                scaleXY = value;
-            }
-        }
-
-        public string TextBoxScale
-        {
-            get
-            {
-                return (ScaleXY * 100.0).ToString("N0") + "%";
-            }
-        }
-
         private void mmViewScalePlus_Click(object sender, RoutedEventArgs e)
         {
             ScalePlus();
@@ -480,7 +526,7 @@ namespace Notepad
 
         private void mmViewScaleDefault_Click(object sender, RoutedEventArgs e)
         {
-            scaleXY = 1;
+            ScaleXY = 1;
             tbNotepad.LayoutTransform = new ScaleTransform(ScaleXY, ScaleXY);
             sbiTextScale.Content = TextBoxScale;
         }

@@ -1,0 +1,194 @@
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Core
+{
+    public class Translator
+    {
+        public static List<TPE> Translate<TEntity, TPE>(IEnumerable<TEntity> list)
+            where TPE : PresentationEntity<TEntity>, new()
+            where TEntity : Entity
+        {
+            if (list == null) return new List<TPE>();
+
+            return list.Select<TEntity, TPE>(item => new TPE() { Entity = item }).ToList();
+        }
+
+        public static List<TPE> TranslateClass<TEntity, TPE>(IEnumerable<TEntity> list)
+            where TPE : PresentationClass<TEntity>, new()
+            where TEntity : class
+        {
+            if (list == null) return new List<TPE>();
+
+            return list.Select<TEntity, TPE>(item => new TPE() { Entity = item }).ToList();
+        }
+
+        public static List<TPE> TranslateEnum<TEntity, TPE>(IEnumerable<TEntity> list)
+            where TPE : PresentationEnum<TEntity>, new()
+            where TEntity : System.Enum
+        {
+            if (list == null) return new List<TPE>();
+
+            return list.Select<TEntity, TPE>(item => new TPE() { Entity = item }).ToList();
+        }
+    }
+}
+
+using Core;
+using LegalDossier.Domain;
+using System.ComponentModel;
+using Web.Controls;
+
+namespace LegalDossier.View.PE
+{
+    public class TcpGeneralPE : PresentationEntity<TcpClient>
+    {
+        [DisplayName("Название ТСП")]
+        [ColumnInPerc(30, true)]
+        public string Name { get { return Entity.TcpName; } }
+
+        [DisplayName("Адрес")]
+        [ColumnInPerc(30, true)]
+        public string Address { get { return Entity.TcpAddress; } }
+
+        [DisplayName("Контактное лицо")]
+        [ColumnInPerc(30, true)]
+        public string ContactName { get { return Entity.TcpContactName; } }
+
+        [DisplayName("Телефон КЛ")]
+        [ColumnInPerc(10, true)]
+        public string ContactPhone { get { return Entity.TcpContactPhone; } }
+    }
+}
+
+using System.ComponentModel;
+using System.Drawing;
+
+namespace Core
+{
+    public class PresentationEntity<T> : IPresentationEntity
+           where T:Entity
+    {
+        [Browsable(false)]
+        public T Entity { get; set; }
+
+        protected string GetBoolString(bool value)
+        {
+            return value ? "Да" : "Нет";
+        }
+
+        public object GetEntity()
+        {
+            return Entity;
+        }
+
+        public virtual bool IsChecked()
+        {
+            return false;
+        }
+
+        public virtual void SetCheck(bool check)
+        {
+
+        }
+
+        public virtual Color GetColor()
+        {
+            return Color.Empty;
+        }
+
+        public virtual Color GetFontColor()
+        {
+            return Color.Empty;
+        }
+
+        public virtual Color GetCellFontColor(int cellIndex)
+        {
+            return Color.Empty;
+        }
+    }
+
+    public class PresentationClass<T> : IPresentationEntity
+        where T : class
+    {
+        [Browsable(false)]
+        public T Entity { get; set; }
+
+        protected string GetBoolString(bool value)
+        {
+            return value ? "Да" : "Нет";
+        }
+
+        public object GetEntity()
+        {
+            return Entity;
+        }
+
+        public virtual bool IsChecked()
+        {
+            return false;
+        }
+
+        public virtual void SetCheck(bool check)
+        {
+
+        }
+
+        public virtual Color GetColor()
+        {
+            return Color.Empty;
+        }
+
+        public virtual Color GetFontColor()
+        {
+            return Color.Empty;
+        }
+
+        public virtual Color GetCellFontColor(int cellIndex)
+        {
+            return Color.Empty;
+        }
+    }
+
+    public class PresentationEnum<T> : IPresentationEntity
+        where T : System.Enum
+    {
+        [Browsable(false)]
+        public T Entity { get; set; }
+
+        protected string GetBoolString(bool value)
+        {
+            return value ? "Да" : "Нет";
+        }
+
+        public object GetEntity()
+        {
+            return Entity;
+        }
+
+        public virtual bool IsChecked()
+        {
+            return false;
+        }
+
+        public virtual void SetCheck(bool check)
+        {
+
+        }
+
+        public virtual Color GetColor()
+        {
+            return Color.Empty;
+        }
+
+        public virtual Color GetFontColor()
+        {
+            return Color.Empty;
+        }
+
+        public virtual Color GetCellFontColor(int cellIndex)
+        {
+            return Color.Empty;
+        }
+    }
+}

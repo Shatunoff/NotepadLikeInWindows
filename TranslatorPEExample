@@ -192,3 +192,26 @@ namespace Core
         }
     }
 }
+
+
+using System;
+
+namespace Web.Controls
+{
+    public class ColumnInPercAttribute : Attribute
+    {
+        public int Width { get; set; }
+
+        public int Percentage { get; set; }
+
+        public ColumnInPercAttribute(int width)
+        {
+            Width = width;
+        }
+
+        public ColumnInPercAttribute(int percentage, bool percent)
+        {
+            Percentage = percentage;
+        }
+    }
+}

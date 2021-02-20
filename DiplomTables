@@ -1,0 +1,42 @@
+create table dbo.ProcedureDocuments(
+	id integer not null identity(1,1),
+	document_id ingeter not null,
+	procedure_id integer not null,
+	constraint procDoc_PK primary key (id),
+	constraint docId_FK foreign key (document_id)
+		references dbo.Documents(id),
+	constraint procId_FK foreign key (procedure_id)
+		references dbo.Procedures(id)
+);
+
+-- Документы организаций
+create table dbo.OrgDocuments(
+	id integer not null identity(1,1),
+	document_id ingeter not null,
+	org_id integer not null,
+	constraint procDoc_PK primary key (id),
+	constraint docId_FK foreign key (document_id)
+		references dbo.Documents(id),
+	constraint procId_FK foreign key (org_id)
+		references dbo.Organizations(id)
+);
+
+-- Документы (файлы)
+create table dbo.Documents(
+	id integer not null identity(1,1),
+	doc_cat_id nvarchar(max) not null,
+	file_fullname nvarchar(max) not null,
+	document_name nvarchar(max) not null,
+	document_date date not null,
+	document_data VARBINARY(MAX) FILESTREAM not null, --Содержимое файла (двоичное)
+	constraint docId_PK primary key (id),
+	constraint docCatId_FK foreign key (doc_cat_name)
+		references dbo.DocumentCategories (id)
+);
+
+-- Категории документов (Процедуры и мониторинги, Организации)
+create table dbo.DocumentCategories(
+	id integer not null identity(1,1),
+	type_name nvarchar(max) not null,
+	constraint docCatId_PK primary key (id)
+);

@@ -1,0 +1,673 @@
+#region Using
+
+using Core;
+using Gizmox.WebGUI.Forms;
+using System;
+using System.ComponentModel;
+using System.Data.Common;
+using System.Linq;
+using Web.Controls.Validators;
+
+#endregion
+
+namespace Web.Controls
+{
+    public abstract partial class DetailForm<TEntity> : Form, IDetailForm<TEntity>
+        where TEntity : Entity, new()
+    {
+        public DetailForm()
+        {
+            InitializeComponent();
+        }
+
+        protected Binder<TEntity> Binder { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public DetailFormState State { get; set; }
+
+        #region IDetailForm<TEntity> Members
+
+        public void UpdateView()
+        {            
+            Binder.UpdateView(Item);
+            AdditionalUpdateView();
+        }
+
+        protected virtual void AdditionalUpdateView()
+        {
+        }
+
+        public void UpdateData(IUnitOfWork uow)
+        {
+            Binder.UpdateData(Item);
+            AdditionalUpdateData(uow);
+        }
+
+        protected virtual void AdditionalUpdateData(IUnitOfWork uow)
+        {
+        }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public virtual TEntity Item { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IUnitOfWork UnitOfWork { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool ReadOnly { get; set; }
+
+        public virtual bool AdditionalValidation() { return true; }
+
+        public virtual void Prepare() { }
+
+        public virtual bool IndependentTransaction { get { return true; } }
+
+        public virtual bool Commit()
+        {
+            if (UnitOfWork == null)
+            {
+                MessageHelper.ShowExclamination("Для формы не задан UnitOfWork! Пожалуйста, сообщите программисту.");
+                return false;
+            }
+
+            UpdateData(UnitOfWork);
+
+            if (State == DetailFormState.Edit && !InReadOnlyMode)
+            {
+                UnitOfWork.RegisterDirty(Item);
+            }
+
+            try
+            {
+                if (!BeforeCommit())
+                    return false;
+                if (IndependentTransaction && !InReadOnlyMode)                    
+                    UnitOfWork.Commit();                    
+                if (!AfterCommit()) 
+                    return false;
+            }
+            catch(DbException ex)
+            {
+                if (Binder.CheckException(ex))
+                {
+                    return false;
+                }
+                throw;
+            }
+            //catch (Exception ex2)
+            //{
+            //    SessionAccessor.RecreateSession();
+            //    MessageBox.Show("Ошибка: " + ex2.Message);
+            //}
+
+            
+            //if (IndependentTransaction)
+            //{
+            //    if (State == DetailFormState.Create)
+            //    {
+            //        State = DetailFormState.Edit;
+            //    }
+            //}            
+            return true;
+        }
+
+        public virtual void Rollback()
+        {
+            BeforeRollback();
+
+            if (UnitOfWork == null) return;
+
+            if (IndependentTransaction)
+                UnitOfWork.Rollback();
+
+            if (ItemCreated && !InReadOnlyMode)
+            {
+                UnitOfWork.RegisterDeleted(Item);
+            }
+            AfterRollback();
+        }
+
+
+        public virtual void BeforeRollback() { return; }
+
+        public virtual void AfterRollback() { return; }
+
+        public virtual bool BeforeCommit() { return true; }
+
+        public virtual bool AfterCommit() { return true; }
+
+        protected virtual void Factory(TEntity entity) { }
+
+        public bool ItemCreated { get; set; }
+
+        #endregion
+
+        private void DetailForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!DesignMode)
+                {
+                    Binder = new Binder<TEntity>();
+
+                    if (Item == null || Item.IsNew())
+                    {
+                        if (Item == null) ItemCreated = true;
+                        Factory(Item);
+                        if (Item == null) Item = new TEntity();
+                        State = DetailFormState.Create;
+                    }
+                    else
+                    {
+                        State = DetailFormState.Edit;
+                    }
+
+                    InReadOnlyMode = ReadOnly || !CanUpdate();
+
+                    if (State == DetailFormState.Create)
+                    {
+                        if (!InReadOnlyMode && UnitOfWork != null)
+                            UnitOfWork.RegisterNew(Item);
+                    }
+
+                    Prepare();
+                    UpdateView();
+
+                    if (InReadOnlyMode)
+                    {
+                        ControlLocker.Disable(this, false);
+                        var btn = DialogButtons.GetButton("Операции");
+                        if (btn != null)
+                        {
+                            ControlLocker.SetState(btn, true);
+                        }
+                        SetOnlyCloseButton();
+                        Text += " (только чтение)";
+                        AdditionalDisable();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                this.Close();
+                VWGContext.Current.ActiveForm = this;
+                throw ex;
+            }
+        }
+
+        protected bool ValidateItem()
+        {
+            ClearErrors();
+            bool valid = Binder.Validate() & AdditionalValidation();
+            OnValidate(valid);
+            return valid;
+        }
+
+        protected virtual void OnValidate(bool valid)
+        {
+        }
+
+        public void SetEditable()
+        {
+            InReadOnlyMode = false;
+            ControlLocker.Disable(this, true);
+            DialogButtons.ButtonOk.Visible = true;
+            DialogButtons.ButtonCancel.Text = "Закрыть";
+            Text = Text.Replace(" (только чтение)", "");
+        }
+
+        protected void SetOnlyCloseButton()
+        {
+            DialogButtons.ButtonOk.Visible = false;
+            DialogButtons.ButtonCancel.Text = "Закрыть";
+            DialogButtons.ButtonCancel.Enabled = true;
+        }
+
+        protected virtual void AdditionalDisable()
+        {
+            
+        }
+
+        protected virtual void AdditionalPostCommit() { }
+        
+        protected bool InReadOnlyMode { get; set; }
+        
+        private static bool CanUpdate()
+        {
+            return AccessController.CanUpdate(typeof(TEntity));
+        }
+
+        private void dialogButtons1_OkClick(object sender, EventArgs e)
+        {
+            ClickOkAndClose();
+        }
+
+        protected void ClickOkAndClose()
+        {
+            if (ClickOk() && CloseOnSave())
+            {
+                Close();
+            }
+        }
+
+        protected virtual bool CloseOnSave()
+        {
+            return true;
+        }
+
+        protected bool ClickOk()
+        {
+            if (!ValidateItem())
+            {
+                return false;
+            }
+
+            if (Commit())
+            {
+                if (DialogButtons.ButtonOk.Text == "Создать")
+                {
+                    AdditionalPostCommit();
+                    return false;
+                }
+                else
+                {
+                    DialogResult = DialogResult.OK;
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
+        private void dialogButtons1_CancelClick(object sender, EventArgs e)
+        {
+            ClickCancel();
+            Close();
+        }
+
+        protected void ClickCancel()
+        {
+            Rollback();
+            DialogResult = DialogResult.Cancel;
+        }
+
+        private void SetFocusFirst()
+        {
+            var control = GetFirstFocus(this);
+            if (control != null)
+            {
+                control.Focus();
+            }
+        }
+
+        private Control GetFirstFocus(Control control)
+        {
+            var first = control.Controls.OfType<Control>()
+                .Where(c => c.TabStop)
+                .OrderBy(c => c.TabIndex)
+                .FirstOrDefault();
+
+            if (first == null)
+                return control;
+            return GetFirstFocus(first);
+        }
+
+        #region IDetailForm Members
+
+
+        public Entity GetItem()
+        {
+            return Item;
+        }
+
+        #endregion
+
+        private void DetailForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (DialogResult != DialogResult.OK)
+            {
+                Rollback();
+            }
+        }
+
+        private ErrorProvider errorProvider = new ErrorProvider();
+
+        protected void SetError(Control control, string p)
+        {
+            errorProvider.SetError(control, p);
+        }
+
+        protected void ClearErrors()
+        {
+            ClearErrors(this);
+        }
+
+        protected void ClearErrors(Control parent)
+        {
+            foreach (Control control in parent.Controls)
+            {
+                errorProvider.SetError(control, string.Empty);
+                ClearErrors(control);
+            }
+        }
+
+        //bool canClose = false;
+
+        //private void DetailForm_FormClosing(object sender, FormClosingEventArgs e)
+        //{
+        //    if (canClose) return;
+
+        //    if (IndependentTransaction && ! InReadOnlyMode && DialogResult == DialogResult.None)
+        //    {
+        //        e.Cancel = true;
+        //        MessageBox.Show(this.Owner, "Внесенные изменения будут потеряны. Действительно закрыть окно?", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question, DetailForm_ExitQuestion);
+        //        //MessageHelper.ShowYesNo("Внесенные изменения будут потеряны. Действительно закрыть окно?", DetailForm_ExitQuestion);
+        //    }
+        //}
+
+        //private void DetailForm_ExitQuestion(object sender, EventArgs e)
+        //{
+        //    var form = (Form)sender;
+
+        //    if (form.DialogResult == DialogResult.Yes)
+        //    {
+        //        canClose = true;
+        //        DialogResult = DialogResult.Cancel;
+        //        ClickCancel();
+        //        Close();
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Sets the focus to next control in area
+        ///// </summary>
+        //public void SetAutoFocus(Control AutoFocusArea)
+        //{
+        //    List<Control> SubControls = GetControls(AutoFocusArea);
+        //    foreach (Control SubControl in SubControls)
+        //    {
+        //        if (SubControl is TextBox)
+        //        {
+        //            (SubControl as TextBox).EnterKeyDown += SetFocusOnEnterKeyDown;
+        //        }
+
+        //        if (SubControl is MaskedTextBox ||
+        //            SubControl is NumericUpDown ||
+        //            SubControl is DateTimePicker)
+        //        {
+        //            (SubControl as Control).KeyPress += SetFocusOnKeyPress;
+        //        }
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Returns a complete list of all controls and subcontrols
+        ///// </summary>
+        //public List<Control> GetControls(Control Area)
+        //{
+        //    var controlList = new List<Control>();
+        //    foreach (Control childControl in Area.Controls)
+        //    {
+        //        //Recurse child controls. 
+        //        controlList.AddRange(GetControls(childControl));
+        //        controlList.Add(childControl);
+        //    }
+        //    return controlList;
+        //}
+
+        //void SetFocusOnEnterKeyDown(object sender, KeyEventArgs e)
+        //{
+        //    NextFocus(sender);
+        //}
+
+        //private void SetFocusOnKeyPress(object sender, KeyPressEventArgs e)
+        //{
+        //    if (e.KeyChar == 13)
+        //    {
+        //        SetFocusOnEnterKeyDown(sender, null);
+        //    }
+        //}
+
+        //private void NextFocus(object sender)
+        //{
+        //    Control Parent = ((Control)sender).Parent;
+        //    int ThisTabIndex = ((Control)sender).TabIndex;
+        //    List<Control> SubControls = GetControls(Parent);
+
+        //    //var c = this.GetNextControl((sender as Control), true);
+        //    //c.Focus();
+
+        //    foreach (Control NextFocus in SubControls)
+        //    {
+        //        if (NextFocus != null && NextFocus.TabIndex != 0)
+        //        {
+        //            if (NextFocus.TabIndex == ThisTabIndex + 1)
+        //            {
+        //                NextFocus.Focus(); return;
+        //            }
+        //        }
+        //    }
+        //}
+    }
+}
+
+using NHibernate;
+using System;
+using System.Collections.Generic;
+
+namespace Core.NH
+{
+    public class NHUnitOfWork : IUnitOfWork
+    {
+        /// <summary>
+        /// Текущая сессия (контекст пользователя)
+        /// </summary>
+        public ISession Session { get { return SessionAccessor.GetAbsSession(); } }
+
+        private List<Entity> newItems = new List<Entity>();
+        private List<Entity> dirtyItems = new List<Entity>();
+        private List<Entity> deletedItems = new List<Entity>();
+        private List<Entity> ignoreItems = new List<Entity>();
+        private List<IUnitOfWorkAction> actions = new List<IUnitOfWorkAction>();
+
+        public IEnumerable<Entity> NewItems
+        {
+            get
+            {
+                return newItems;
+            }
+        }
+
+        public NHUnitOfWork()
+        {
+        }
+
+        #region IUnitOfWork Members
+
+        public void Ignore(Entity item)
+        {
+            if (!ignoreItems.Contains(item))
+                ignoreItems.Add(item);
+        }
+
+        public void RegisterNew(Entity item)
+        {
+            if (item != null)
+            {
+                if (!item.IsNew())
+                {
+                     RegisterDirty(item);
+                }
+                else
+                {
+                    if (!newItems.Contains(item))
+                        newItems.Add(item);
+                }
+            }
+        }
+
+        public void RegisterDirty(Entity item)
+        {
+            if (item != null)
+            {
+                if (item.IsNew())
+                {
+                    RegisterNew(item);
+                }
+                else
+                {
+                    // чтобы не добавить объект в список для обновления, который еще не закоммитили
+                    if (!newItems.Contains(item))
+                    {
+                        if (!dirtyItems.Contains(item))
+                            dirtyItems.Add(item);
+                    }
+                }
+            }
+        }
+
+        public void RegisterDirtyRef(Entity item)
+        {
+            if (item != null)
+            {
+                if (item.IsNew())
+                {
+                    RegisterNew(item);
+                    return;
+                }
+                if (item != null)
+                {
+                    if (!dirtyItems.Contains(item))
+                        dirtyItems.Add(item);
+                }
+            }
+        }
+
+        public void RegisterDeleted(Entity item)
+        {
+            if (newItems.Contains(item))
+                newItems.Remove(item);
+            else if (!deletedItems.Contains(item) && !item.IsNew())
+            {
+                if (dirtyItems.Contains(item))
+                    dirtyItems.Remove(item);
+                deletedItems.Add(item);
+            }
+        }
+
+        public void RegisterAction(IUnitOfWorkAction item)
+        {
+            if (!actions.Contains(item))
+                actions.Add(item);
+        }
+
+        public void RecreateSession()
+        {
+            SessionAccessor.GetAbsSession();
+        }
+        
+        public void Commit()
+        {
+            if (newItems.Count > 0 || dirtyItems.Count > 0 || deletedItems.Count > 0)
+            {
+                if (!Session.IsOpen) RecreateSession();
+
+                SessionAccessor.InitContext(Session);
+
+                using (var transaction = Session.BeginTransaction())
+                {
+                    foreach (Entity deletedObject in deletedItems)
+                    {
+                        Session.Delete(deletedObject);
+                    }
+                    foreach (Entity newObject in newItems)
+                    {
+                        newObject.OnSave(this);
+                        Session.Save(newObject);
+                    }
+                    foreach (Entity dirtyObject in dirtyItems)
+                    {
+                        dirtyObject.OnSave(this);
+                        if (!ignoreItems.Contains(dirtyObject)) Session.SaveOrUpdate(dirtyObject);
+                    }
+
+                    try
+                    {
+                        Session.Flush();
+
+                        foreach (var action in actions)
+                        {
+                            action.Execute();
+                        }
+
+                        transaction.Commit();
+                        ClearList();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.WriteError(ex, "", "NHUnitOfWork.Commit()");
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private void ClearList()
+        {
+            newItems = new List<Entity>();
+            dirtyItems = new List<Entity>();
+            deletedItems = new List<Entity>();
+            actions = new List<IUnitOfWorkAction>();
+        }
+
+        public void Rollback()
+        {
+            foreach (Entity dirtyObject in dirtyItems)
+            {
+                Session.Refresh(dirtyObject);
+            }
+
+            foreach (var item in actions)
+            {
+                item.Rollback();
+            }
+
+            ClearList();
+        }
+
+        public void Init()
+        {
+        }
+
+        public void Refresh(Entity entity)
+        {
+            Session.Refresh(entity);
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        private bool disposed;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    Rollback();
+                }
+            }
+            disposed = true;
+        }
+
+        #endregion
+    }
+}

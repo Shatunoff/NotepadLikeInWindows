@@ -1,0 +1,87 @@
+        public void AutoSizeColumnsWidth()
+        {
+            AutoResizeColumnHeadersHeight(false,true);
+
+            if (DataSource == null)
+                return;
+
+            var args = (DataSource.GetType()).GetGenericArguments();
+
+            if (args.Length == 0)
+                return;
+
+            Type t = args[0];
+            //Type at = typeof(ColumnWidthAttribute);
+            
+            //DataGridViewColumn autoColumn = null;
+
+            //foreach(var prop in t.GetProperties())
+            //{
+            //    var list = prop.GetCustomAttributes(at, true).OfType<ColumnWidthAttribute>();
+            //    foreach (ColumnWidthAttribute a in list)
+            //    {
+            //        var column = GetColumn(prop.Name);
+            //        if (column != null)
+            //        {
+            //            column.Width = a.Width;
+
+            //            if (a.ColumnAutoSize == ColumnAutoSize.Fill)
+            //            {
+            //                column.MinimumWidth = 2;
+            //                column.Width = 2;
+            //                autoColumn = column;
+            //            }
+            //        }
+            //    }
+            //}
+
+            //if (autoColumn != null)
+            //{
+            //    int totalWidth = 0;
+            //    foreach (DataGridViewColumn col in Columns)
+            //    {
+            //        totalWidth += col.Width;
+            //    }
+
+            //    autoColumn.Width = totalWidth < Width ? Width - totalWidth - 20 : 100;
+            //}
+
+            Type at = typeof(ColumnInPercAttribute);
+
+            int totalWidth = this.Width - 25;
+
+            int fixedWidth = 0;
+            foreach (var prop in t.GetProperties())
+            {
+                var list = prop.GetCustomAttributes(at, true).OfType<ColumnInPercAttribute>();
+                foreach (ColumnInPercAttribute a in list.Where(x => x.Width > 0))
+                {
+                    var column = GetColumn(prop.Name);
+                    if (column != null)
+                    {
+                        column.Width = a.Width;
+                        fixedWidth += column.Width;
+                    }
+                }
+            }
+
+            foreach (var prop in t.GetProperties())
+            {
+                var list = prop.GetCustomAttributes(at, true).OfType<ColumnInPercAttribute>();
+                foreach (ColumnInPercAttribute a in list.Where(x => x.Percentage > 0))
+                {
+                    var column = GetColumn(prop.Name);
+                    if (column != null)
+                    {
+                        if (totalWidth - fixedWidth > 0)
+                        {
+                            column.Width = (totalWidth - fixedWidth) * a.Percentage / 100;
+                        }
+                        else column.Width = 100;
+                        if (column.Width < 100) column.Width = 100; 
+                    }
+                }
+            }
+
+            AutoResizeColumnHeadersHeight();
+        }
